@@ -1,2 +1,1 @@
-# Img
-pictures
+Blog or note assets, including images and code.
