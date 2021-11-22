@@ -1,0 +1,2416 @@
+
+<!DOCTYPE html>
+<html lang='en-AU'>
+<head>
+<meta charset=\"UTF-8\">
+<title>Souffle Debug Report (example.dl)</title>
+<style>
+    ul { list-style-type: none; }
+    ul > li.leaf { display: inline-block; padding: 0em 1em; }
+    ul > li.nonleaf { padding: 0em 1em; }
+    * { font-family: sans-serif; }
+    pre { white-space: pre-wrap; font-family: monospace; }
+    a:link { text-decoration: none; color: blue; }
+    a:visited { text-decoration: none; color: blue; }
+    div.headerdiv { background-color:lightgrey; margin:10px; padding-left:10px; padding-right:10px;
+        padding-top:3px; padding-bottom:3px; border-radius:5px }
+    .headerdiv h1 { display:inline; }
+    .headerdiv a { float:right; }
+</style>
+
+<link rel="stylesheet" type="text/css" href=
+    "https://cdn.jsdelivr.net/npm/highlight.js@10.0.0/styles/default.min.css" />
+<script type="text/javascript" src=
+    "https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.0.0/build/highlight.min.js"></script>
+
+<link rel="stylesheet" type="text/css" href=
+    "https://cdn.jsdelivr.net/npm/diff2html/bundles/css/diff2html.min.css" />
+<script type="text/javascript" src=
+    "https://cdn.jsdelivr.net/npm/diff2html/bundles/js/diff2html-ui-base.min.js"></script>
+
+<script>
+  function toggleVisibility(id) {
+    var element = document.getElementById(id);
+    if (element.style.display == 'none') {
+      element.style.display = 'block';
+    } else {
+      element.style.display = 'none';
+    }
+  }
+
+  if (typeof hljs !== 'undefined') {
+    hljs.registerLanguage('souffle', function (hljs) {
+      let COMMENT_MODES = [
+        hljs.C_LINE_COMMENT_MODE,
+        hljs.C_BLOCK_COMMENT_MODE,
+      ]
+
+      let KEYWORDS = {
+        $pattern: '\\.?\\w+',
+        literal: 'true false',
+        keyword: '.pragma .functor .component .decl .input .output ' +
+          'ord strlen strsub range matches land lor lxor lnot bwand bwor bwxor bwnot bshl bshr bshru',
+      }
+
+      let STRING = hljs.QUOTE_STRING_MODE
+      let NUMBERS = {
+        className: 'number', relevance: 0, variants: [
+          { begin: /0b[01]+/ },
+          { begin: /\d+\.\d+/ }, // float
+          { begin: /\d+\.\d+.\d+.\d+/ }, // IPv4 literal
+          { begin: /\d+u?/ },
+          { begin: /0x[a-fA-F0-9]+u?/ }
+        ]
+      }
+
+      let PREPROCESSOR = {
+        className: 'meta',
+        begin: /#\s*[a-z]+\b/,
+        end: /$/,
+        keywords: {
+          'meta-keyword': 'if else elif endif define undef warning error line pragma ifdef ifndef include'
+        },
+        contains: [
+          { begin: /\\\n/, relevance: 0 },
+          hljs.inherit(STRING, { className: 'meta-string' }),
+        ].concat(COMMENT_MODES)
+      };
+
+      let ATOM = { begin: /[a-z][A-Za-z0-9_]*/, relevance: 0 }
+      let VAR = {
+        className: 'symbol', relevance: 0, variants: [
+          { begin: /[A-Z][a-zA-Z0-9_]*/ },
+          { begin: /_[A-Za-z0-9_]*/ },
+        ]
+      }
+      let PARENTED = { begin: /\(/, end: /\)/, relevance: 0 }
+      let LIST = { begin: /\[/, end: /\]/ }
+      let PRED_OP = { begin: /:-/ } // relevance booster
+
+      let INNER = [
+        ATOM,
+        VAR,
+        PARENTED,
+        PRED_OP,
+        LIST,
+        STRING,
+        NUMBERS,
+      ].concat(COMMENT_MODES)
+
+      PARENTED.contains = INNER;
+      LIST.contains = INNER;
+
+      return {
+        name: 'souffle',
+        keywords: KEYWORDS,
+        contains: INNER.concat([{ begin: /\.$/ }]) // relevance booster
+      };
+    })
+    // TODO: Add a highlighter for `ram`
+    hljs.configure({ languages: ['souffle'] })
+  }
+
+  if (typeof Diff2HtmlUI !== 'undefined' && typeof hljs !== 'undefined') {
+    function renderDiff(lang, id, diff) {
+      // file extension determines the language used for highlighting
+      let file   = `Datalog.${lang}`
+      let prefix = `diff ${file} ${file}
+--- ${file}
++++ ${file}
+@@ -1 +1 @@
+`
+      new Diff2HtmlUI(document.getElementById(id), prefix + diff, {
+        drawFileList: false,
+        highlight: true,
+        matching: 'none',
+        outputFormat: 'side-by-side',
+        synchronisedScroll: true,
+      }, hljs).draw()
+    }
+  } else { // fallback to plain text
+    function renderDiff(lang, id, diff) {
+      document.getElementById(id).innerText = diff
+    }
+  }
+</script>
+</head>
+<body>
+<div class='headerdiv'><h1>Souffle Debug Report (example.dl)</h1></div>
+<a href="#Configuration0">Configuration</a>
+<ul>
+</ul>
+<a href="#Parsing1">Parsing (0.001757s)</a>
+<ul>
+</ul>
+<a href="#ComponentChecker3">ComponentChecker (0.000023s) (unchanged)</a>
+<ul>
+<li class='leaf'><a href="#component-lookup2">Ast Analysis [component-lookup]</a>
+<ul>
+</ul>
+</li></ul>
+<a href="#ComponentInstantiationTransformer5">ComponentInstantiationTransformer (0.000002s)</a>
+<ul>
+<li class='leaf'><a href="#dl4">Datalog</a>
+<ul>
+</ul>
+</li></ul>
+<a href="#IODefaultsTransformer7">IODefaultsTransformer (0.000014s)</a>
+<ul>
+<li class='leaf'><a href="#dl6">Datalog</a>
+<ul>
+</ul>
+</li></ul>
+<a href="#SimplifyAggregateTargetExpressionTransformer8">SimplifyAggregateTargetExpressionTransformer (0.000011s) (unchanged)</a>
+<ul>
+</ul>
+<a href="#UniqueAggregationVariablesTransformer9">UniqueAggregationVariablesTransformer (0.000009s) (unchanged)</a>
+<ul>
+</ul>
+<a href="#ResolveAnonymousRecordAliases14">ResolveAnonymousRecordAliases (0.000233s) (unchanged)</a>
+<ul>
+<li class='leaf'><a href="#type-environment10">Ast Analysis [type-environment]</a>
+<ul>
+</ul>
+</li><li class='leaf'><a href="#sum-type-branches11">Ast Analysis [sum-type-branches]</a>
+<ul>
+</ul>
+</li><li class='leaf'><a href="#type-analysis12">Ast Analysis [type-analysis]</a>
+<ul>
+</ul>
+</li><li class='leaf'><a href="#relation-detail13">Ast Analysis [relation-detail]</a>
+<ul>
+</ul>
+</li></ul>
+<a href="#FoldAnonymousRecords15">FoldAnonymousRecords (0.000012s) (unchanged)</a>
+<ul>
+</ul>
+<a href="#SemanticChecker22">SemanticChecker (0.000359s) (unchanged)</a>
+<ul>
+<li class='leaf'><a href="#IO-type-analysis16">Ast Analysis [IO-type-analysis]</a>
+<ul>
+</ul>
+</li><li class='leaf'><a href="#precedence-graph17">Ast Analysis [precedence-graph]</a>
+<ul>
+</ul>
+</li><li class='leaf'><a href="#recursive-clauses18">Ast Analysis [recursive-clauses]</a>
+<ul>
+</ul>
+</li><li class='leaf'><a href="#scc-graph19">Ast Analysis [scc-graph]</a>
+<ul>
+</ul>
+</li><li class='leaf'><a href="#functor-analysis20">Ast Analysis [functor-analysis]</a>
+<ul>
+</ul>
+</li><li class='leaf'><a href="#polymorphic-objects21">Ast Analysis [polymorphic-objects]</a>
+<ul>
+</ul>
+</li></ul>
+<a href="#GroundWitnessesTransformer23">GroundWitnessesTransformer (0.000009s) (unchanged)</a>
+<ul>
+</ul>
+<a href="#UniqueAggregationVariablesTransformer24">UniqueAggregationVariablesTransformer (0.000007s) (unchanged)</a>
+<ul>
+</ul>
+<a href="#MaterializeSingletonAggregationTransformer25">MaterializeSingletonAggregationTransformer (0.000011s) (unchanged)</a>
+<ul>
+</ul>
+<a href="#MaterializeAggregationQueriesTransformer26">MaterializeAggregationQueriesTransformer (0.000014s) (unchanged)</a>
+<ul>
+</ul>
+<a href="#RemoveRedundantSumsTransformer27">RemoveRedundantSumsTransformer (0.000007s) (unchanged)</a>
+<ul>
+</ul>
+<a href="#NormaliseGeneratorsTransformer28">NormaliseGeneratorsTransformer (0.000005s) (unchanged)</a>
+<ul>
+</ul>
+<a href="#ResolveAliasesTransformer29">ResolveAliasesTransformer (0.000043s) (unchanged)</a>
+<ul>
+</ul>
+<a href="#RemoveBooleanConstraintsTransformer30">RemoveBooleanConstraintsTransformer (0.000012s) (unchanged)</a>
+<ul>
+</ul>
+<a href="#ResolveAliasesTransformer31">ResolveAliasesTransformer (0.000040s) (unchanged)</a>
+<ul>
+</ul>
+<a href="#MinimiseProgramTransformer33">MinimiseProgramTransformer (0.000048s) (unchanged)</a>
+<ul>
+<li class='leaf'><a href="#clause-normalisation32">Ast Analysis [clause-normalisation]</a>
+<ul>
+</ul>
+</li></ul>
+<a href="#InlineUnmarkExcludedTransform34">InlineUnmarkExcludedTransform (0.000005s) (unchanged)</a>
+<ul>
+</ul>
+<a href="#InlineRelationsTransformer35">InlineRelationsTransformer (0.000014s) (unchanged)</a>
+<ul>
+</ul>
+<a href="#GroundedTermsChecker36">GroundedTermsChecker (0.000042s) (unchanged)</a>
+<ul>
+</ul>
+<a href="#ResolveAliasesTransformer37">ResolveAliasesTransformer (0.000052s) (unchanged)</a>
+<ul>
+</ul>
+<a href="#RemoveRedundantRelationsTransformer39">RemoveRedundantRelationsTransformer (0.000019s) (unchanged)</a>
+<ul>
+<li class='leaf'><a href="#redundant-relations38">Ast Analysis [redundant-relations]</a>
+<ul>
+</ul>
+</li></ul>
+<a href="#RemoveRelationCopiesTransformer40">RemoveRelationCopiesTransformer (0.000006s) (unchanged)</a>
+<ul>
+</ul>
+<a href="#RemoveEmptyRelationsTransformer41">RemoveEmptyRelationsTransformer (0.000004s) (unchanged)</a>
+<ul>
+</ul>
+<a href="#ReplaceSingletonVariablesTransformer42">ReplaceSingletonVariablesTransformer (0.000019s) (unchanged)</a>
+<ul>
+</ul>
+<a href="#ReduceExistentialsTransformer43">ReduceExistentialsTransformer (0.000032s) (unchanged)</a>
+<ul>
+</ul>
+<a href="#RemoveRedundantRelationsTransformer44">RemoveRedundantRelationsTransformer (0.000002s) (unchanged)</a>
+<ul>
+</ul>
+<a href="#RemoveRelationCopiesTransformer45">RemoveRelationCopiesTransformer (0.000005s) (unchanged)</a>
+<ul>
+</ul>
+<a href="#NameUnnamedVariablesTransformer46">NameUnnamedVariablesTransformer (0.000006s) (unchanged)</a>
+<ul>
+</ul>
+<a href="#PartitionBodyLiteralsTransformer47">PartitionBodyLiteralsTransformer (0.000028s) (unchanged)</a>
+<ul>
+</ul>
+<a href="#ReplaceSingletonVariablesTransformer48">ReplaceSingletonVariablesTransformer (0.000019s) (unchanged)</a>
+<ul>
+</ul>
+<a href="#NameUnnamedVariablesTransformer49">NameUnnamedVariablesTransformer (0.000006s) (unchanged)</a>
+<ul>
+</ul>
+<a href="#MinimiseProgramTransformer50">MinimiseProgramTransformer (0.000015s) (unchanged)</a>
+<ul>
+</ul>
+<a href="#ReplaceSingletonVariablesTransformer51">ReplaceSingletonVariablesTransformer (0.000015s) (unchanged)</a>
+<ul>
+</ul>
+<a href="#RemoveRelationCopiesTransformer52">RemoveRelationCopiesTransformer (0.000004s) (unchanged)</a>
+<ul>
+</ul>
+<a href="#RemoveEmptyRelationsTransformer53">RemoveEmptyRelationsTransformer (0.000004s) (unchanged)</a>
+<ul>
+</ul>
+<a href="#RemoveRedundantRelationsTransformer54">RemoveRedundantRelationsTransformer (0.000002s) (unchanged)</a>
+<ul>
+</ul>
+<a href="#RemoveRelationCopiesTransformer55">RemoveRelationCopiesTransformer (0.000004s) (unchanged)</a>
+<ul>
+</ul>
+<a href="#ResolveAliasesTransformer56">ResolveAliasesTransformer (0.000047s) (unchanged)</a>
+<ul>
+</ul>
+<a href="#RemoveRelationCopiesTransformer57">RemoveRelationCopiesTransformer (0.000003s) (unchanged)</a>
+<ul>
+</ul>
+<a href="#RemoveEmptyRelationsTransformer58">RemoveEmptyRelationsTransformer (0.000003s) (unchanged)</a>
+<ul>
+</ul>
+<a href="#RemoveRedundantRelationsTransformer59">RemoveRedundantRelationsTransformer (0.000001s) (unchanged)</a>
+<ul>
+</ul>
+<a href="#NameUnnamedVariablesTransformer60">NameUnnamedVariablesTransformer (0.000007s) (unchanged)</a>
+<ul>
+</ul>
+<a href="#MinimiseProgramTransformer61">MinimiseProgramTransformer (0.000014s) (unchanged)</a>
+<ul>
+</ul>
+<a href="#ReplaceSingletonVariablesTransformer62">ReplaceSingletonVariablesTransformer (0.000026s) (unchanged)</a>
+<ul>
+</ul>
+<a href="#RemoveRelationCopiesTransformer63">RemoveRelationCopiesTransformer (0.000003s) (unchanged)</a>
+<ul>
+</ul>
+<a href="#RemoveEmptyRelationsTransformer64">RemoveEmptyRelationsTransformer (0.000004s) (unchanged)</a>
+<ul>
+</ul>
+<a href="#RemoveRedundantRelationsTransformer65">RemoveRedundantRelationsTransformer (0.000001s) (unchanged)</a>
+<ul>
+</ul>
+<a href="#ReorderLiteralsTransformer66">ReorderLiteralsTransformer (0.000015s) (unchanged)</a>
+<ul>
+</ul>
+<a href="#RemoveEmptyRelationsTransformer67">RemoveEmptyRelationsTransformer (0.000004s) (unchanged)</a>
+<ul>
+</ul>
+<a href="#AddNullariesToAtomlessAggregatesTransformer68">AddNullariesToAtomlessAggregatesTransformer (0.000007s) (unchanged)</a>
+<ul>
+</ul>
+<a href="#ReorderLiteralsTransformer69">ReorderLiteralsTransformer (0.000013s) (unchanged)</a>
+<ul>
+</ul>
+<a href="#ExecutionPlanChecker72">ExecutionPlanChecker (0.000075s) (unchanged)</a>
+<ul>
+<li class='leaf'><a href="#topological-scc-graph70">Ast Analysis [topological-scc-graph]</a>
+<ul>
+</ul>
+</li><li class='leaf'><a href="#relation-schedule71">Ast Analysis [relation-schedule]</a>
+<ul>
+</ul>
+</li></ul>
+<a href="#IOAttributesTransformer74">IOAttributesTransformer (0.000091s)</a>
+<ul>
+<li class='leaf'><a href="#dl73">Datalog</a>
+<ul>
+</ul>
+</li></ul>
+<a href="#ast-to-ram88">Translate AST to RAM</a>
+<ul>
+<li class='leaf'><a href="#type-environment75">Ast Analysis [type-environment]</a>
+<ul>
+</ul>
+</li><li class='leaf'><a href="#sum-type-branches76">Ast Analysis [sum-type-branches]</a>
+<ul>
+</ul>
+</li><li class='leaf'><a href="#type-analysis77">Ast Analysis [type-analysis]</a>
+<ul>
+</ul>
+</li><li class='leaf'><a href="#functor-analysis78">Ast Analysis [functor-analysis]</a>
+<ul>
+</ul>
+</li><li class='leaf'><a href="#relation-detail79">Ast Analysis [relation-detail]</a>
+<ul>
+</ul>
+</li><li class='leaf'><a href="#recursive-clauses80">Ast Analysis [recursive-clauses]</a>
+<ul>
+</ul>
+</li><li class='leaf'><a href="#precedence-graph81">Ast Analysis [precedence-graph]</a>
+<ul>
+</ul>
+</li><li class='leaf'><a href="#IO-type-analysis82">Ast Analysis [IO-type-analysis]</a>
+<ul>
+</ul>
+</li><li class='leaf'><a href="#scc-graph83">Ast Analysis [scc-graph]</a>
+<ul>
+</ul>
+</li><li class='leaf'><a href="#topological-scc-graph84">Ast Analysis [topological-scc-graph]</a>
+<ul>
+</ul>
+</li><li class='leaf'><a href="#relation-schedule85">Ast Analysis [relation-schedule]</a>
+<ul>
+</ul>
+</li><li class='leaf'><a href="#polymorphic-objects86">Ast Analysis [polymorphic-objects]</a>
+<ul>
+</ul>
+</li><li class='leaf'><a href="#ram-program87">RAM Program (0.000494s)</a>
+<ul>
+</ul>
+</li></ul>
+<a href="#ExpandFilterTransformer89">ExpandFilterTransformer  (unchanged)</a>
+<ul>
+</ul>
+<a href="#HoistConditionsTransformer91">HoistConditionsTransformer</a>
+<ul>
+<li class='leaf'><a href="#HoistConditionsTransformer90">RAM Program after HoistConditionsTransformer</a>
+<ul>
+</ul>
+</li></ul>
+<a href="#MakeIndexTransformer93">MakeIndexTransformer</a>
+<ul>
+<li class='leaf'><a href="#MakeIndexTransformer92">RAM Program after MakeIndexTransformer</a>
+<ul>
+</ul>
+</li></ul>
+<a href="#TransformerSequence95">TransformerSequence</a>
+<ul>
+<li class='leaf'><a href="#TransformerSequence94">RAM Program after TransformerSequence</a>
+<ul>
+</ul>
+</li></ul>
+<a href="#ExpandFilterTransformer97">ExpandFilterTransformer</a>
+<ul>
+<li class='leaf'><a href="#ExpandFilterTransformer96">RAM Program after ExpandFilterTransformer</a>
+<ul>
+</ul>
+</li></ul>
+<a href="#HoistConditionsTransformer99">HoistConditionsTransformer</a>
+<ul>
+<li class='leaf'><a href="#HoistConditionsTransformer98">RAM Program after HoistConditionsTransformer</a>
+<ul>
+</ul>
+</li></ul>
+<a href="#MakeIndexTransformer100">MakeIndexTransformer  (unchanged)</a>
+<ul>
+</ul>
+<a href="#TransformerSequence101">TransformerSequence  (unchanged)</a>
+<ul>
+</ul>
+<a href="#LoopTransformer103">LoopTransformer</a>
+<ul>
+<li class='leaf'><a href="#LoopTransformer102">RAM Program after LoopTransformer</a>
+<ul>
+</ul>
+</li></ul>
+<a href="#IfConversionTransformer104">IfConversionTransformer  (unchanged)</a>
+<ul>
+</ul>
+<a href="#IfExistsConversionTransformer105">IfExistsConversionTransformer  (unchanged)</a>
+<ul>
+</ul>
+<a href="#CollapseFiltersTransformer106">CollapseFiltersTransformer  (unchanged)</a>
+<ul>
+</ul>
+<a href="#TupleIdTransformer107">TupleIdTransformer  (unchanged)</a>
+<ul>
+</ul>
+<a href="#HoistAggregateTransformer108">HoistAggregateTransformer  (unchanged)</a>
+<ul>
+</ul>
+<a href="#TupleIdTransformer109">TupleIdTransformer  (unchanged)</a>
+<ul>
+</ul>
+<a href="#TransformerSequence110">TransformerSequence  (unchanged)</a>
+<ul>
+</ul>
+<a href="#LoopTransformer111">LoopTransformer  (unchanged)</a>
+<ul>
+</ul>
+<a href="#ExpandFilterTransformer113">ExpandFilterTransformer</a>
+<ul>
+<li class='leaf'><a href="#ExpandFilterTransformer112">RAM Program after ExpandFilterTransformer</a>
+<ul>
+</ul>
+</li></ul>
+<a href="#HoistConditionsTransformer115">HoistConditionsTransformer</a>
+<ul>
+<li class='leaf'><a href="#HoistConditionsTransformer114">RAM Program after HoistConditionsTransformer</a>
+<ul>
+</ul>
+</li></ul>
+<a href="#CollapseFiltersTransformer116">CollapseFiltersTransformer  (unchanged)</a>
+<ul>
+</ul>
+<a href="#EliminateDuplicatesTransformer117">EliminateDuplicatesTransformer  (unchanged)</a>
+<ul>
+</ul>
+<a href="#ReorderConditionsTransformer119">ReorderConditionsTransformer</a>
+<ul>
+<li class='leaf'><a href="#ReorderConditionsTransformer118">RAM Program after ReorderConditionsTransformer</a>
+<ul>
+</ul>
+</li></ul>
+<a href="#ReorderFilterBreak120">ReorderFilterBreak  (unchanged)</a>
+<ul>
+</ul>
+<a href="#LoopTransformer121">LoopTransformer  (unchanged)</a>
+<ul>
+</ul>
+<a href="#ConditionalTransformer122">ConditionalTransformer  (unchanged)</a>
+<ul>
+</ul>
+<a href="#index-analysis123">RAM Analysis index-analysis</a>
+<ul>
+</ul>
+<a href="#ReportIndexTransformer124">ReportIndexTransformer  (unchanged)</a>
+<ul>
+</ul>
+<a href="#TransformerSequence125">TransformerSequence  (unchanged)</a>
+<ul>
+</ul>
+<a id="Configuration0"></a>
+<div class='headerdiv'>
+<h1>Configuration</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+<pre>Executed at 2021-10-25 09:34:15
+(
+  "" -> "example.dl",
+  "debug-report" -> "example.html",
+  "fact-dir" -> ".",
+  "include-dir" -> " -I.",
+  "jobs" -> "1",
+  "output-dir" -> ".",
+  "version" -> "2.1"
+)</pre>
+</div>
+<a id="Parsing1"></a>
+<div class='headerdiv'>
+<h1>Parsing (0.001757s)</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+<pre></pre>
+</div>
+<a id="ComponentChecker3"></a>
+<div class='headerdiv'>
+<h1>ComponentChecker (0.000023s) (unchanged)</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+
+<a id="component-lookup2"></a>
+<div class='headerdiv'>
+<h1>Ast Analysis [component-lookup]</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+<pre></pre>
+</div>
+</div>
+<a id="ComponentInstantiationTransformer5"></a>
+<div class='headerdiv'>
+<h1>ComponentInstantiationTransformer (0.000002s)</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+
+<a id="dl4"></a>
+<div class='headerdiv'>
+<h1>Datalog</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+
+        <div id="code-id-0"></div>
+        <script type="text/javascript"> renderDiff('souffle', 'code-id-0', ` .decl edge(x:number, y:number) 
+ .decl path(x:number, y:number) 
+ path(x,y) :- 
+    edge(x,y).
+ 
+ path(x,y) :- 
+    path(x,z),
+    edge(z,y).
+ .input edge
+ 
+ .output path
+`) </script>
+    
+</div>
+</div>
+<a id="IODefaultsTransformer7"></a>
+<div class='headerdiv'>
+<h1>IODefaultsTransformer (0.000014s)</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+
+<a id="dl6"></a>
+<div class='headerdiv'>
+<h1>Datalog</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+
+        <div id="code-id-1"></div>
+        <script type="text/javascript"> renderDiff('souffle', 'code-id-1', ` .decl edge(x:number, y:number) 
+ .decl path(x:number, y:number) 
+ path(x,y) :- 
+    edge(x,y).
+ 
+ path(x,y) :- 
+    path(x,z),
+    edge(z,y).
+-.input edge
++.input edge(IO="file",fact-dir=".",name="edge",operation="input")
+ 
+-.output path
++.output path(IO="file",name="path",operation="output",output-dir=".")
+`) </script>
+    
+</div>
+</div>
+<a id="SimplifyAggregateTargetExpressionTransformer8"></a>
+<div class='headerdiv'>
+<h1>SimplifyAggregateTargetExpressionTransformer (0.000011s) (unchanged)</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+
+</div>
+<a id="UniqueAggregationVariablesTransformer9"></a>
+<div class='headerdiv'>
+<h1>UniqueAggregationVariablesTransformer (0.000009s) (unchanged)</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+
+</div>
+<a id="ResolveAnonymousRecordAliases14"></a>
+<div class='headerdiv'>
+<h1>ResolveAnonymousRecordAliases (0.000233s) (unchanged)</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+
+<a id="type-environment10"></a>
+<div class='headerdiv'>
+<h1>Ast Analysis [type-environment]</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+<pre>Types:
+	__floatConstant
+	__numberConstant
+	__symbolConstant
+	__unsignedConstant
+	float
+	number
+	symbol
+	unsigned
+</pre>
+</div>
+<a id="sum-type-branches11"></a>
+<div class='headerdiv'>
+<h1>Ast Analysis [sum-type-branches]</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+<pre></pre>
+</div>
+<a id="type-analysis12"></a>
+<div class='headerdiv'>
+<h1>Ast Analysis [type-analysis]</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+<pre>-- Analysis logs --
+Clause: path(x,y) :- 
+   edge(x,y).
+Problem:
+{
+	var(x) &lt: __numberConstant,
+	var(y) &lt: __numberConstant,
+	var(x) &lt: number,
+	var(y) &lt: number
+}
+Solution:
+{var(x)->{number},var(y)->{number}}
+Clause: path(x,y) :- 
+   path(x,z),
+   edge(z,y).
+Problem:
+{
+	var(x) &lt: __numberConstant,
+	var(y) &lt: __numberConstant,
+	var(x) &lt: number,
+	var(z) &lt: number,
+	var(z) &lt: number,
+	var(y) &lt: number
+}
+Solution:
+{var(z)->{number},var(x)->{number},var(y)->{number}}
+
+-- Result --
+path(x&isin;{number},y&isin;{number}) :- 
+   edge(x&isin;{number},y&isin;{number}).
+path(x&isin;{number},y&isin;{number}) :- 
+   path(x&isin;{number},z&isin;{number}),
+   edge(z&isin;{number},y&isin;{number}).
+</pre>
+</div>
+<a id="relation-detail13"></a>
+<div class='headerdiv'>
+<h1>Ast Analysis [relation-detail]</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+<pre>--edge--
+
+--path--
+path(x,y) :- 
+   edge(x,y).
+path(x,y) :- 
+   path(x,z),
+   edge(z,y).
+
+</pre>
+</div>
+</div>
+<a id="FoldAnonymousRecords15"></a>
+<div class='headerdiv'>
+<h1>FoldAnonymousRecords (0.000012s) (unchanged)</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+
+</div>
+<a id="SemanticChecker22"></a>
+<div class='headerdiv'>
+<h1>SemanticChecker (0.000359s) (unchanged)</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+
+<a id="IO-type-analysis16"></a>
+<div class='headerdiv'>
+<h1>Ast Analysis [IO-type-analysis]</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+<pre>input relations: {edge}
+output relations: {path}
+printsize relations: {}
+limitsize relations: {}
+</pre>
+</div>
+<a id="precedence-graph17"></a>
+<div class='headerdiv'>
+<h1>Ast Analysis [precedence-graph]</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+<div class='precedence-graph-source'>
+<pre>digraph {
+	"edge" [label = "edge"];
+	"path" [label = "path"];
+	"edge" -> "path";
+	"path" -> "path";
+}
+</pre>
+</div>
+
+</div>
+<a id="recursive-clauses18"></a>
+<div class='headerdiv'>
+<h1>Ast Analysis [recursive-clauses]</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+<pre>{path(x,y) :- 
+   path(x,z),
+   edge(z,y).}
+</pre>
+</div>
+<a id="scc-graph19"></a>
+<div class='headerdiv'>
+<h1>Ast Analysis [scc-graph]</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+<div class='scc-graph-source'>
+<pre>digraph {
+	_0[label = "edge" ];
+	_1[label = "path" ];
+	_0 -> _1;
+}</pre>
+</div>
+
+</div>
+<a id="functor-analysis20"></a>
+<div class='headerdiv'>
+<h1>Ast Analysis [functor-analysis]</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+<pre></pre>
+</div>
+<a id="polymorphic-objects21"></a>
+<div class='headerdiv'>
+<h1>Ast Analysis [polymorphic-objects]</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+<pre></pre>
+</div>
+</div>
+<a id="GroundWitnessesTransformer23"></a>
+<div class='headerdiv'>
+<h1>GroundWitnessesTransformer (0.000009s) (unchanged)</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+
+</div>
+<a id="UniqueAggregationVariablesTransformer24"></a>
+<div class='headerdiv'>
+<h1>UniqueAggregationVariablesTransformer (0.000007s) (unchanged)</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+
+</div>
+<a id="MaterializeSingletonAggregationTransformer25"></a>
+<div class='headerdiv'>
+<h1>MaterializeSingletonAggregationTransformer (0.000011s) (unchanged)</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+
+</div>
+<a id="MaterializeAggregationQueriesTransformer26"></a>
+<div class='headerdiv'>
+<h1>MaterializeAggregationQueriesTransformer (0.000014s) (unchanged)</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+
+</div>
+<a id="RemoveRedundantSumsTransformer27"></a>
+<div class='headerdiv'>
+<h1>RemoveRedundantSumsTransformer (0.000007s) (unchanged)</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+
+</div>
+<a id="NormaliseGeneratorsTransformer28"></a>
+<div class='headerdiv'>
+<h1>NormaliseGeneratorsTransformer (0.000005s) (unchanged)</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+
+</div>
+<a id="ResolveAliasesTransformer29"></a>
+<div class='headerdiv'>
+<h1>ResolveAliasesTransformer (0.000043s) (unchanged)</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+
+</div>
+<a id="RemoveBooleanConstraintsTransformer30"></a>
+<div class='headerdiv'>
+<h1>RemoveBooleanConstraintsTransformer (0.000012s) (unchanged)</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+
+</div>
+<a id="ResolveAliasesTransformer31"></a>
+<div class='headerdiv'>
+<h1>ResolveAliasesTransformer (0.000040s) (unchanged)</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+
+</div>
+<a id="MinimiseProgramTransformer33"></a>
+<div class='headerdiv'>
+<h1>MinimiseProgramTransformer (0.000048s) (unchanged)</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+
+<a id="clause-normalisation32"></a>
+<div class='headerdiv'>
+<h1>Ast Analysis [clause-normalisation]</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+<pre>Normalise(path(x,y) :- 
+   edge(x,y).) = {@min:head:[x,y], @min:atom.edge:[@min:scope:0,x,y]}
+Normalise(path(x,y) :- 
+   path(x,z),
+   edge(z,y).) = {@min:head:[x,y], @min:atom.path:[@min:scope:0,x,z], @min:atom.edge:[@min:scope:0,z,y]}
+</pre>
+</div>
+</div>
+<a id="InlineUnmarkExcludedTransform34"></a>
+<div class='headerdiv'>
+<h1>InlineUnmarkExcludedTransform (0.000005s) (unchanged)</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+
+</div>
+<a id="InlineRelationsTransformer35"></a>
+<div class='headerdiv'>
+<h1>InlineRelationsTransformer (0.000014s) (unchanged)</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+
+</div>
+<a id="GroundedTermsChecker36"></a>
+<div class='headerdiv'>
+<h1>GroundedTermsChecker (0.000042s) (unchanged)</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+
+</div>
+<a id="ResolveAliasesTransformer37"></a>
+<div class='headerdiv'>
+<h1>ResolveAliasesTransformer (0.000052s) (unchanged)</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+
+</div>
+<a id="RemoveRedundantRelationsTransformer39"></a>
+<div class='headerdiv'>
+<h1>RemoveRedundantRelationsTransformer (0.000019s) (unchanged)</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+
+<a id="redundant-relations38"></a>
+<div class='headerdiv'>
+<h1>Ast Analysis [redundant-relations]</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+<pre>{}
+</pre>
+</div>
+</div>
+<a id="RemoveRelationCopiesTransformer40"></a>
+<div class='headerdiv'>
+<h1>RemoveRelationCopiesTransformer (0.000006s) (unchanged)</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+
+</div>
+<a id="RemoveEmptyRelationsTransformer41"></a>
+<div class='headerdiv'>
+<h1>RemoveEmptyRelationsTransformer (0.000004s) (unchanged)</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+
+</div>
+<a id="ReplaceSingletonVariablesTransformer42"></a>
+<div class='headerdiv'>
+<h1>ReplaceSingletonVariablesTransformer (0.000019s) (unchanged)</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+
+</div>
+<a id="ReduceExistentialsTransformer43"></a>
+<div class='headerdiv'>
+<h1>ReduceExistentialsTransformer (0.000032s) (unchanged)</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+
+</div>
+<a id="RemoveRedundantRelationsTransformer44"></a>
+<div class='headerdiv'>
+<h1>RemoveRedundantRelationsTransformer (0.000002s) (unchanged)</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+
+</div>
+<a id="RemoveRelationCopiesTransformer45"></a>
+<div class='headerdiv'>
+<h1>RemoveRelationCopiesTransformer (0.000005s) (unchanged)</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+
+</div>
+<a id="NameUnnamedVariablesTransformer46"></a>
+<div class='headerdiv'>
+<h1>NameUnnamedVariablesTransformer (0.000006s) (unchanged)</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+
+</div>
+<a id="PartitionBodyLiteralsTransformer47"></a>
+<div class='headerdiv'>
+<h1>PartitionBodyLiteralsTransformer (0.000028s) (unchanged)</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+
+</div>
+<a id="ReplaceSingletonVariablesTransformer48"></a>
+<div class='headerdiv'>
+<h1>ReplaceSingletonVariablesTransformer (0.000019s) (unchanged)</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+
+</div>
+<a id="NameUnnamedVariablesTransformer49"></a>
+<div class='headerdiv'>
+<h1>NameUnnamedVariablesTransformer (0.000006s) (unchanged)</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+
+</div>
+<a id="MinimiseProgramTransformer50"></a>
+<div class='headerdiv'>
+<h1>MinimiseProgramTransformer (0.000015s) (unchanged)</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+
+</div>
+<a id="ReplaceSingletonVariablesTransformer51"></a>
+<div class='headerdiv'>
+<h1>ReplaceSingletonVariablesTransformer (0.000015s) (unchanged)</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+
+</div>
+<a id="RemoveRelationCopiesTransformer52"></a>
+<div class='headerdiv'>
+<h1>RemoveRelationCopiesTransformer (0.000004s) (unchanged)</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+
+</div>
+<a id="RemoveEmptyRelationsTransformer53"></a>
+<div class='headerdiv'>
+<h1>RemoveEmptyRelationsTransformer (0.000004s) (unchanged)</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+
+</div>
+<a id="RemoveRedundantRelationsTransformer54"></a>
+<div class='headerdiv'>
+<h1>RemoveRedundantRelationsTransformer (0.000002s) (unchanged)</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+
+</div>
+<a id="RemoveRelationCopiesTransformer55"></a>
+<div class='headerdiv'>
+<h1>RemoveRelationCopiesTransformer (0.000004s) (unchanged)</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+
+</div>
+<a id="ResolveAliasesTransformer56"></a>
+<div class='headerdiv'>
+<h1>ResolveAliasesTransformer (0.000047s) (unchanged)</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+
+</div>
+<a id="RemoveRelationCopiesTransformer57"></a>
+<div class='headerdiv'>
+<h1>RemoveRelationCopiesTransformer (0.000003s) (unchanged)</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+
+</div>
+<a id="RemoveEmptyRelationsTransformer58"></a>
+<div class='headerdiv'>
+<h1>RemoveEmptyRelationsTransformer (0.000003s) (unchanged)</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+
+</div>
+<a id="RemoveRedundantRelationsTransformer59"></a>
+<div class='headerdiv'>
+<h1>RemoveRedundantRelationsTransformer (0.000001s) (unchanged)</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+
+</div>
+<a id="NameUnnamedVariablesTransformer60"></a>
+<div class='headerdiv'>
+<h1>NameUnnamedVariablesTransformer (0.000007s) (unchanged)</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+
+</div>
+<a id="MinimiseProgramTransformer61"></a>
+<div class='headerdiv'>
+<h1>MinimiseProgramTransformer (0.000014s) (unchanged)</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+
+</div>
+<a id="ReplaceSingletonVariablesTransformer62"></a>
+<div class='headerdiv'>
+<h1>ReplaceSingletonVariablesTransformer (0.000026s) (unchanged)</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+
+</div>
+<a id="RemoveRelationCopiesTransformer63"></a>
+<div class='headerdiv'>
+<h1>RemoveRelationCopiesTransformer (0.000003s) (unchanged)</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+
+</div>
+<a id="RemoveEmptyRelationsTransformer64"></a>
+<div class='headerdiv'>
+<h1>RemoveEmptyRelationsTransformer (0.000004s) (unchanged)</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+
+</div>
+<a id="RemoveRedundantRelationsTransformer65"></a>
+<div class='headerdiv'>
+<h1>RemoveRedundantRelationsTransformer (0.000001s) (unchanged)</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+
+</div>
+<a id="ReorderLiteralsTransformer66"></a>
+<div class='headerdiv'>
+<h1>ReorderLiteralsTransformer (0.000015s) (unchanged)</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+
+</div>
+<a id="RemoveEmptyRelationsTransformer67"></a>
+<div class='headerdiv'>
+<h1>RemoveEmptyRelationsTransformer (0.000004s) (unchanged)</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+
+</div>
+<a id="AddNullariesToAtomlessAggregatesTransformer68"></a>
+<div class='headerdiv'>
+<h1>AddNullariesToAtomlessAggregatesTransformer (0.000007s) (unchanged)</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+
+</div>
+<a id="ReorderLiteralsTransformer69"></a>
+<div class='headerdiv'>
+<h1>ReorderLiteralsTransformer (0.000013s) (unchanged)</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+
+</div>
+<a id="ExecutionPlanChecker72"></a>
+<div class='headerdiv'>
+<h1>ExecutionPlanChecker (0.000075s) (unchanged)</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+
+<a id="topological-scc-graph70"></a>
+<div class='headerdiv'>
+<h1>Ast Analysis [topological-scc-graph]</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+<pre>--- partial order of strata as list of pairs ---
+0 1
+--- total order with relations of each strata ---
+0: [edge]
+1: [path]
+
+--- statistics of topological order ---
+cost: 1
+</pre>
+</div>
+<a id="relation-schedule71"></a>
+<div class='headerdiv'>
+<h1>Ast Analysis [relation-schedule]</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+<pre>begin schedule
+computed: edge, 
+expired: 
+not recursive
+computed: edge, 
+expired: 
+not recursive
+computed: path, 
+expired: edge, path, 
+recursive
+computed: path, 
+expired: edge, path, 
+recursive
+end schedule
+</pre>
+</div>
+</div>
+<a id="IOAttributesTransformer74"></a>
+<div class='headerdiv'>
+<h1>IOAttributesTransformer (0.000091s)</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+
+<a id="dl73"></a>
+<div class='headerdiv'>
+<h1>Datalog</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+
+        <div id="code-id-2"></div>
+        <script type="text/javascript"> renderDiff('souffle', 'code-id-2', ` .decl edge(x:number, y:number) 
+ .decl path(x:number, y:number) 
+ path(x,y) :- 
+    edge(x,y).
+ 
+ path(x,y) :- 
+    path(x,z),
+    edge(z,y).
+-.input edge(IO="file",fact-dir=".",name="edge",operation="input")
++.input edge(IO="file",attributeNames="x	y",fact-dir=".",name="edge",operation="input",params="{"records": {}, "relation": {"arity": 2, "params": ["x", "y"]}}",types="{"ADTs": {}, "records": {}, "relation": {"arity": 2, "types": ["i:number", "i:number"]}}")
+ 
+-.output path(IO="file",name="path",operation="output",output-dir=".")
++.output path(IO="file",attributeNames="x	y",name="path",operation="output",output-dir=".",params="{"records": {}, "relation": {"arity": 2, "params": ["x", "y"]}}",types="{"ADTs": {}, "records": {}, "relation": {"arity": 2, "types": ["i:number", "i:number"]}}")
+`) </script>
+    
+</div>
+</div>
+<a id="ast-to-ram88"></a>
+<div class='headerdiv'>
+<h1>Translate AST to RAM</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+
+<a id="type-environment75"></a>
+<div class='headerdiv'>
+<h1>Ast Analysis [type-environment]</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+<pre>Types:
+	__floatConstant
+	__numberConstant
+	__symbolConstant
+	__unsignedConstant
+	float
+	number
+	symbol
+	unsigned
+</pre>
+</div>
+<a id="sum-type-branches76"></a>
+<div class='headerdiv'>
+<h1>Ast Analysis [sum-type-branches]</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+<pre></pre>
+</div>
+<a id="type-analysis77"></a>
+<div class='headerdiv'>
+<h1>Ast Analysis [type-analysis]</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+<pre>-- Analysis logs --
+Clause: path(x,y) :- 
+   edge(x,y).
+Problem:
+{
+	var(x) &lt: __numberConstant,
+	var(y) &lt: __numberConstant,
+	var(x) &lt: number,
+	var(y) &lt: number
+}
+Solution:
+{var(x)->{number},var(y)->{number}}
+Clause: path(x,y) :- 
+   path(x,z),
+   edge(z,y).
+Problem:
+{
+	var(x) &lt: __numberConstant,
+	var(y) &lt: __numberConstant,
+	var(x) &lt: number,
+	var(z) &lt: number,
+	var(z) &lt: number,
+	var(y) &lt: number
+}
+Solution:
+{var(z)->{number},var(x)->{number},var(y)->{number}}
+
+-- Result --
+path(x&isin;{number},y&isin;{number}) :- 
+   edge(x&isin;{number},y&isin;{number}).
+path(x&isin;{number},y&isin;{number}) :- 
+   path(x&isin;{number},z&isin;{number}),
+   edge(z&isin;{number},y&isin;{number}).
+</pre>
+</div>
+<a id="functor-analysis78"></a>
+<div class='headerdiv'>
+<h1>Ast Analysis [functor-analysis]</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+<pre></pre>
+</div>
+<a id="relation-detail79"></a>
+<div class='headerdiv'>
+<h1>Ast Analysis [relation-detail]</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+<pre>--edge--
+
+--path--
+path(x,y) :- 
+   edge(x,y).
+path(x,y) :- 
+   path(x,z),
+   edge(z,y).
+
+</pre>
+</div>
+<a id="recursive-clauses80"></a>
+<div class='headerdiv'>
+<h1>Ast Analysis [recursive-clauses]</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+<pre>{path(x,y) :- 
+   path(x,z),
+   edge(z,y).}
+</pre>
+</div>
+<a id="precedence-graph81"></a>
+<div class='headerdiv'>
+<h1>Ast Analysis [precedence-graph]</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+<div class='precedence-graph-source'>
+<pre>digraph {
+	"edge" [label = "edge"];
+	"path" [label = "path"];
+	"edge" -> "path";
+	"path" -> "path";
+}
+</pre>
+</div>
+
+</div>
+<a id="IO-type-analysis82"></a>
+<div class='headerdiv'>
+<h1>Ast Analysis [IO-type-analysis]</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+<pre>input relations: {edge}
+output relations: {path}
+printsize relations: {}
+limitsize relations: {}
+</pre>
+</div>
+<a id="scc-graph83"></a>
+<div class='headerdiv'>
+<h1>Ast Analysis [scc-graph]</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+<div class='scc-graph-source'>
+<pre>digraph {
+	_0[label = "edge" ];
+	_1[label = "path" ];
+	_0 -> _1;
+}</pre>
+</div>
+
+</div>
+<a id="topological-scc-graph84"></a>
+<div class='headerdiv'>
+<h1>Ast Analysis [topological-scc-graph]</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+<pre>--- partial order of strata as list of pairs ---
+0 1
+--- total order with relations of each strata ---
+0: [edge]
+1: [path]
+
+--- statistics of topological order ---
+cost: 1
+</pre>
+</div>
+<a id="relation-schedule85"></a>
+<div class='headerdiv'>
+<h1>Ast Analysis [relation-schedule]</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+<pre>begin schedule
+computed: edge, 
+expired: 
+not recursive
+computed: edge, 
+expired: 
+not recursive
+computed: path, 
+expired: edge, path, 
+recursive
+computed: path, 
+expired: edge, path, 
+recursive
+end schedule
+</pre>
+</div>
+<a id="polymorphic-objects86"></a>
+<div class='headerdiv'>
+<h1>Ast Analysis [polymorphic-objects]</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+<pre></pre>
+</div>
+<a id="ram-program87"></a>
+<div class='headerdiv'>
+<h1>RAM Program (0.000494s)</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+<pre>PROGRAM
+ DECLARATION
+  edge(x:i:number,y:i:number) 
+  path(x:i:number,y:i:number) 
+  @delta_path(x:i:number,y:i:number) 
+  @new_path(x:i:number,y:i:number) 
+ END DECLARATION
+ SUBROUTINE stratum_0
+  IO edge (IO="file",attributeNames="x\ty",auxArity="0",fact-dir=".",name="edge",operation="input",params="{\"records\": {}, \"relation\": {\"arity\": 2, \"params\": [\"x\", \"y\"]}}",types="{\"ADTs\": {}, \"records\": {}, \"relation\": {\"arity\": 2, \"types\": [\"i:number\", \"i:number\"]}}")
+ END SUBROUTINE
+ SUBROUTINE stratum_1
+  DEBUG "path(x,y) :- \n   edge(x,y).\nin file /home/jck/example.dl [7:1-7:26]"
+   QUERY
+    FOR t0 IN edge
+     IF (NOT ISEMPTY(edge))
+      INSERT (t0.0, t0.1) INTO path
+   END QUERY
+  END DEBUG
+  QUERY
+   FOR t0 IN path
+    INSERT (t0.0, t0.1) INTO @delta_path
+  END QUERY
+  LOOP
+   PARALLEL
+    DEBUG "path(x,y) :- \n   path(x,z),\n   edge(z,y).\nin file /home/jck/example.dl [8:1-8:38]"
+     QUERY
+      FOR t0 IN @delta_path
+       IF (NOT ISEMPTY(@delta_path))
+        FOR t1 IN edge
+         IF (NOT ISEMPTY(edge))
+          IF (NOT (t0.0,t1.1) IN path)
+           IF (t0.1 = t1.0)
+            INSERT (t0.0, t1.1) INTO @new_path
+     END QUERY
+    END DEBUG
+   END PARALLEL
+   EXIT ISEMPTY(@new_path)
+   QUERY
+    FOR t0 IN @new_path
+     INSERT (t0.0, t0.1) INTO path
+   END QUERY
+   SWAP (@delta_path, @new_path)
+   CLEAR @new_path
+  END LOOP
+  CLEAR @delta_path
+  CLEAR @new_path
+  IO path (IO="file",attributeNames="x\ty",auxArity="0",name="path",operation="output",output-dir=".",params="{\"records\": {}, \"relation\": {\"arity\": 2, \"params\": [\"x\", \"y\"]}}",types="{\"ADTs\": {}, \"records\": {}, \"relation\": {\"arity\": 2, \"types\": [\"i:number\", \"i:number\"]}}")
+  CLEAR edge
+  CLEAR path
+ END SUBROUTINE
+ BEGIN MAIN
+  CALL stratum_0
+  CALL stratum_1
+ END MAIN
+END PROGRAM
+</pre>
+</div>
+</div>
+<a id="ExpandFilterTransformer89"></a>
+<div class='headerdiv'>
+<h1>ExpandFilterTransformer  (unchanged)</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+
+</div>
+<a id="HoistConditionsTransformer91"></a>
+<div class='headerdiv'>
+<h1>HoistConditionsTransformer</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+
+<a id="HoistConditionsTransformer90"></a>
+<div class='headerdiv'>
+<h1>RAM Program after HoistConditionsTransformer</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+
+        <div id="code-id-3"></div>
+        <script type="text/javascript"> renderDiff('ram', 'code-id-3', ` PROGRAM
+  DECLARATION
+   edge(x:i:number,y:i:number) 
+   path(x:i:number,y:i:number) 
+   @delta_path(x:i:number,y:i:number) 
+   @new_path(x:i:number,y:i:number) 
+  END DECLARATION
+  SUBROUTINE stratum_0
+   IO edge (IO="file",attributeNames="x\\ty",auxArity="0",fact-dir=".",name="edge",operation="input",params="{\\"records\\": {}, \\"relation\\": {\\"arity\\": 2, \\"params\\": [\\"x\\", \\"y\\"]}}",types="{\\"ADTs\\": {}, \\"records\\": {}, \\"relation\\": {\\"arity\\": 2, \\"types\\": [\\"i:number\\", \\"i:number\\"]}}")
+  END SUBROUTINE
+  SUBROUTINE stratum_1
+   DEBUG "path(x,y) :- \\n   edge(x,y).\\nin file /home/jck/example.dl [7:1-7:26]"
+    QUERY
+-    FOR t0 IN edge
+-     IF (NOT ISEMPTY(edge))
++    IF (NOT ISEMPTY(edge))
++     FOR t0 IN edge
+       INSERT (t0.0, t0.1) INTO path
+    END QUERY
+   END DEBUG
+   QUERY
+    FOR t0 IN path
+     INSERT (t0.0, t0.1) INTO @delta_path
+   END QUERY
+   LOOP
+    PARALLEL
+     DEBUG "path(x,y) :- \\n   path(x,z),\\n   edge(z,y).\\nin file /home/jck/example.dl [8:1-8:38]"
+      QUERY
+-      FOR t0 IN @delta_path
+-       IF (NOT ISEMPTY(@delta_path))
++      IF ((NOT ISEMPTY(@delta_path)) AND (NOT ISEMPTY(edge)))
++       FOR t0 IN @delta_path
+         FOR t1 IN edge
+-         IF (NOT ISEMPTY(edge))
+-          IF (NOT (t0.0,t1.1) IN path)
+-           IF (t0.1 = t1.0)
+-            INSERT (t0.0, t1.1) INTO @new_path
++         IF ((NOT (t0.0,t1.1) IN path) AND (t0.1 = t1.0))
++          INSERT (t0.0, t1.1) INTO @new_path
+      END QUERY
+     END DEBUG
+    END PARALLEL
+    EXIT ISEMPTY(@new_path)
+    QUERY
+     FOR t0 IN @new_path
+      INSERT (t0.0, t0.1) INTO path
+    END QUERY
+    SWAP (@delta_path, @new_path)
+    CLEAR @new_path
+   END LOOP
+   CLEAR @delta_path
+   CLEAR @new_path
+   IO path (IO="file",attributeNames="x\\ty",auxArity="0",name="path",operation="output",output-dir=".",params="{\\"records\\": {}, \\"relation\\": {\\"arity\\": 2, \\"params\\": [\\"x\\", \\"y\\"]}}",types="{\\"ADTs\\": {}, \\"records\\": {}, \\"relation\\": {\\"arity\\": 2, \\"types\\": [\\"i:number\\", \\"i:number\\"]}}")
+   CLEAR edge
+   CLEAR path
+  END SUBROUTINE
+  BEGIN MAIN
+   CALL stratum_0
+   CALL stratum_1
+  END MAIN
+ END PROGRAM
+`) </script>
+    
+</div>
+</div>
+<a id="MakeIndexTransformer93"></a>
+<div class='headerdiv'>
+<h1>MakeIndexTransformer</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+
+<a id="MakeIndexTransformer92"></a>
+<div class='headerdiv'>
+<h1>RAM Program after MakeIndexTransformer</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+
+        <div id="code-id-4"></div>
+        <script type="text/javascript"> renderDiff('ram', 'code-id-4', ` PROGRAM
+  DECLARATION
+   edge(x:i:number,y:i:number) 
+   path(x:i:number,y:i:number) 
+   @delta_path(x:i:number,y:i:number) 
+   @new_path(x:i:number,y:i:number) 
+  END DECLARATION
+  SUBROUTINE stratum_0
+   IO edge (IO="file",attributeNames="x\\ty",auxArity="0",fact-dir=".",name="edge",operation="input",params="{\\"records\\": {}, \\"relation\\": {\\"arity\\": 2, \\"params\\": [\\"x\\", \\"y\\"]}}",types="{\\"ADTs\\": {}, \\"records\\": {}, \\"relation\\": {\\"arity\\": 2, \\"types\\": [\\"i:number\\", \\"i:number\\"]}}")
+  END SUBROUTINE
+  SUBROUTINE stratum_1
+   DEBUG "path(x,y) :- \\n   edge(x,y).\\nin file /home/jck/example.dl [7:1-7:26]"
+    QUERY
+     IF (NOT ISEMPTY(edge))
+      FOR t0 IN edge
+       INSERT (t0.0, t0.1) INTO path
+    END QUERY
+   END DEBUG
+   QUERY
+    FOR t0 IN path
+     INSERT (t0.0, t0.1) INTO @delta_path
+   END QUERY
+   LOOP
+    PARALLEL
+     DEBUG "path(x,y) :- \\n   path(x,z),\\n   edge(z,y).\\nin file /home/jck/example.dl [8:1-8:38]"
+      QUERY
+       IF ((NOT ISEMPTY(@delta_path)) AND (NOT ISEMPTY(edge)))
+        FOR t0 IN @delta_path
+-        FOR t1 IN edge
+-         IF ((NOT (t0.0,t1.1) IN path) AND (t0.1 = t1.0))
++        FOR t1 IN edge ON INDEX t1.0 = t0.1
++         IF (NOT (t0.0,t1.1) IN path)
+           INSERT (t0.0, t1.1) INTO @new_path
+      END QUERY
+     END DEBUG
+    END PARALLEL
+    EXIT ISEMPTY(@new_path)
+    QUERY
+     FOR t0 IN @new_path
+      INSERT (t0.0, t0.1) INTO path
+    END QUERY
+    SWAP (@delta_path, @new_path)
+    CLEAR @new_path
+   END LOOP
+   CLEAR @delta_path
+   CLEAR @new_path
+   IO path (IO="file",attributeNames="x\\ty",auxArity="0",name="path",operation="output",output-dir=".",params="{\\"records\\": {}, \\"relation\\": {\\"arity\\": 2, \\"params\\": [\\"x\\", \\"y\\"]}}",types="{\\"ADTs\\": {}, \\"records\\": {}, \\"relation\\": {\\"arity\\": 2, \\"types\\": [\\"i:number\\", \\"i:number\\"]}}")
+   CLEAR edge
+   CLEAR path
+  END SUBROUTINE
+  BEGIN MAIN
+   CALL stratum_0
+   CALL stratum_1
+  END MAIN
+ END PROGRAM
+`) </script>
+    
+</div>
+</div>
+<a id="TransformerSequence95"></a>
+<div class='headerdiv'>
+<h1>TransformerSequence</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+
+<a id="TransformerSequence94"></a>
+<div class='headerdiv'>
+<h1>RAM Program after TransformerSequence</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+
+        <div id="code-id-5"></div>
+        <script type="text/javascript"> renderDiff('ram', 'code-id-5', ` PROGRAM
+  DECLARATION
+   edge(x:i:number,y:i:number) 
+   path(x:i:number,y:i:number) 
+   @delta_path(x:i:number,y:i:number) 
+   @new_path(x:i:number,y:i:number) 
+  END DECLARATION
+  SUBROUTINE stratum_0
+   IO edge (IO="file",attributeNames="x\\ty",auxArity="0",fact-dir=".",name="edge",operation="input",params="{\\"records\\": {}, \\"relation\\": {\\"arity\\": 2, \\"params\\": [\\"x\\", \\"y\\"]}}",types="{\\"ADTs\\": {}, \\"records\\": {}, \\"relation\\": {\\"arity\\": 2, \\"types\\": [\\"i:number\\", \\"i:number\\"]}}")
+  END SUBROUTINE
+  SUBROUTINE stratum_1
+   DEBUG "path(x,y) :- \\n   edge(x,y).\\nin file /home/jck/example.dl [7:1-7:26]"
+    QUERY
+-    FOR t0 IN edge
+-     IF (NOT ISEMPTY(edge))
++    IF (NOT ISEMPTY(edge))
++     FOR t0 IN edge
+       INSERT (t0.0, t0.1) INTO path
+    END QUERY
+   END DEBUG
+   QUERY
+    FOR t0 IN path
+     INSERT (t0.0, t0.1) INTO @delta_path
+   END QUERY
+   LOOP
+    PARALLEL
+     DEBUG "path(x,y) :- \\n   path(x,z),\\n   edge(z,y).\\nin file /home/jck/example.dl [8:1-8:38]"
+      QUERY
+-      FOR t0 IN @delta_path
+-       IF (NOT ISEMPTY(@delta_path))
+-        FOR t1 IN edge
+-         IF (NOT ISEMPTY(edge))
+-          IF (NOT (t0.0,t1.1) IN path)
+-           IF (t0.1 = t1.0)
+-            INSERT (t0.0, t1.1) INTO @new_path
++      IF ((NOT ISEMPTY(@delta_path)) AND (NOT ISEMPTY(edge)))
++       FOR t0 IN @delta_path
++        FOR t1 IN edge ON INDEX t1.0 = t0.1
++         IF (NOT (t0.0,t1.1) IN path)
++          INSERT (t0.0, t1.1) INTO @new_path
+      END QUERY
+     END DEBUG
+    END PARALLEL
+    EXIT ISEMPTY(@new_path)
+    QUERY
+     FOR t0 IN @new_path
+      INSERT (t0.0, t0.1) INTO path
+    END QUERY
+    SWAP (@delta_path, @new_path)
+    CLEAR @new_path
+   END LOOP
+   CLEAR @delta_path
+   CLEAR @new_path
+   IO path (IO="file",attributeNames="x\\ty",auxArity="0",name="path",operation="output",output-dir=".",params="{\\"records\\": {}, \\"relation\\": {\\"arity\\": 2, \\"params\\": [\\"x\\", \\"y\\"]}}",types="{\\"ADTs\\": {}, \\"records\\": {}, \\"relation\\": {\\"arity\\": 2, \\"types\\": [\\"i:number\\", \\"i:number\\"]}}")
+   CLEAR edge
+   CLEAR path
+  END SUBROUTINE
+  BEGIN MAIN
+   CALL stratum_0
+   CALL stratum_1
+  END MAIN
+ END PROGRAM
+`) </script>
+    
+</div>
+</div>
+<a id="ExpandFilterTransformer97"></a>
+<div class='headerdiv'>
+<h1>ExpandFilterTransformer</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+
+<a id="ExpandFilterTransformer96"></a>
+<div class='headerdiv'>
+<h1>RAM Program after ExpandFilterTransformer</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+
+        <div id="code-id-6"></div>
+        <script type="text/javascript"> renderDiff('ram', 'code-id-6', ` PROGRAM
+  DECLARATION
+   edge(x:i:number,y:i:number) 
+   path(x:i:number,y:i:number) 
+   @delta_path(x:i:number,y:i:number) 
+   @new_path(x:i:number,y:i:number) 
+  END DECLARATION
+  SUBROUTINE stratum_0
+   IO edge (IO="file",attributeNames="x\\ty",auxArity="0",fact-dir=".",name="edge",operation="input",params="{\\"records\\": {}, \\"relation\\": {\\"arity\\": 2, \\"params\\": [\\"x\\", \\"y\\"]}}",types="{\\"ADTs\\": {}, \\"records\\": {}, \\"relation\\": {\\"arity\\": 2, \\"types\\": [\\"i:number\\", \\"i:number\\"]}}")
+  END SUBROUTINE
+  SUBROUTINE stratum_1
+   DEBUG "path(x,y) :- \\n   edge(x,y).\\nin file /home/jck/example.dl [7:1-7:26]"
+    QUERY
+     IF (NOT ISEMPTY(edge))
+      FOR t0 IN edge
+       INSERT (t0.0, t0.1) INTO path
+    END QUERY
+   END DEBUG
+   QUERY
+    FOR t0 IN path
+     INSERT (t0.0, t0.1) INTO @delta_path
+   END QUERY
+   LOOP
+    PARALLEL
+     DEBUG "path(x,y) :- \\n   path(x,z),\\n   edge(z,y).\\nin file /home/jck/example.dl [8:1-8:38]"
+      QUERY
+-      IF ((NOT ISEMPTY(@delta_path)) AND (NOT ISEMPTY(edge)))
+-       FOR t0 IN @delta_path
+-        FOR t1 IN edge ON INDEX t1.0 = t0.1
+-         IF (NOT (t0.0,t1.1) IN path)
+-          INSERT (t0.0, t1.1) INTO @new_path
++      IF (NOT ISEMPTY(edge))
++       IF (NOT ISEMPTY(@delta_path))
++        FOR t0 IN @delta_path
++         FOR t1 IN edge ON INDEX t1.0 = t0.1
++          IF (NOT (t0.0,t1.1) IN path)
++           INSERT (t0.0, t1.1) INTO @new_path
+      END QUERY
+     END DEBUG
+    END PARALLEL
+    EXIT ISEMPTY(@new_path)
+    QUERY
+     FOR t0 IN @new_path
+      INSERT (t0.0, t0.1) INTO path
+    END QUERY
+    SWAP (@delta_path, @new_path)
+    CLEAR @new_path
+   END LOOP
+   CLEAR @delta_path
+   CLEAR @new_path
+   IO path (IO="file",attributeNames="x\\ty",auxArity="0",name="path",operation="output",output-dir=".",params="{\\"records\\": {}, \\"relation\\": {\\"arity\\": 2, \\"params\\": [\\"x\\", \\"y\\"]}}",types="{\\"ADTs\\": {}, \\"records\\": {}, \\"relation\\": {\\"arity\\": 2, \\"types\\": [\\"i:number\\", \\"i:number\\"]}}")
+   CLEAR edge
+   CLEAR path
+  END SUBROUTINE
+  BEGIN MAIN
+   CALL stratum_0
+   CALL stratum_1
+  END MAIN
+ END PROGRAM
+`) </script>
+    
+</div>
+</div>
+<a id="HoistConditionsTransformer99"></a>
+<div class='headerdiv'>
+<h1>HoistConditionsTransformer</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+
+<a id="HoistConditionsTransformer98"></a>
+<div class='headerdiv'>
+<h1>RAM Program after HoistConditionsTransformer</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+
+        <div id="code-id-7"></div>
+        <script type="text/javascript"> renderDiff('ram', 'code-id-7', ` PROGRAM
+  DECLARATION
+   edge(x:i:number,y:i:number) 
+   path(x:i:number,y:i:number) 
+   @delta_path(x:i:number,y:i:number) 
+   @new_path(x:i:number,y:i:number) 
+  END DECLARATION
+  SUBROUTINE stratum_0
+   IO edge (IO="file",attributeNames="x\\ty",auxArity="0",fact-dir=".",name="edge",operation="input",params="{\\"records\\": {}, \\"relation\\": {\\"arity\\": 2, \\"params\\": [\\"x\\", \\"y\\"]}}",types="{\\"ADTs\\": {}, \\"records\\": {}, \\"relation\\": {\\"arity\\": 2, \\"types\\": [\\"i:number\\", \\"i:number\\"]}}")
+  END SUBROUTINE
+  SUBROUTINE stratum_1
+   DEBUG "path(x,y) :- \\n   edge(x,y).\\nin file /home/jck/example.dl [7:1-7:26]"
+    QUERY
+     IF (NOT ISEMPTY(edge))
+      FOR t0 IN edge
+       INSERT (t0.0, t0.1) INTO path
+    END QUERY
+   END DEBUG
+   QUERY
+    FOR t0 IN path
+     INSERT (t0.0, t0.1) INTO @delta_path
+   END QUERY
+   LOOP
+    PARALLEL
+     DEBUG "path(x,y) :- \\n   path(x,z),\\n   edge(z,y).\\nin file /home/jck/example.dl [8:1-8:38]"
+      QUERY
+-      IF (NOT ISEMPTY(edge))
+-       IF (NOT ISEMPTY(@delta_path))
+-        FOR t0 IN @delta_path
+-         FOR t1 IN edge ON INDEX t1.0 = t0.1
+-          IF (NOT (t0.0,t1.1) IN path)
+-           INSERT (t0.0, t1.1) INTO @new_path
++      IF ((NOT ISEMPTY(edge)) AND (NOT ISEMPTY(@delta_path)))
++       FOR t0 IN @delta_path
++        FOR t1 IN edge ON INDEX t1.0 = t0.1
++         IF (NOT (t0.0,t1.1) IN path)
++          INSERT (t0.0, t1.1) INTO @new_path
+      END QUERY
+     END DEBUG
+    END PARALLEL
+    EXIT ISEMPTY(@new_path)
+    QUERY
+     FOR t0 IN @new_path
+      INSERT (t0.0, t0.1) INTO path
+    END QUERY
+    SWAP (@delta_path, @new_path)
+    CLEAR @new_path
+   END LOOP
+   CLEAR @delta_path
+   CLEAR @new_path
+   IO path (IO="file",attributeNames="x\\ty",auxArity="0",name="path",operation="output",output-dir=".",params="{\\"records\\": {}, \\"relation\\": {\\"arity\\": 2, \\"params\\": [\\"x\\", \\"y\\"]}}",types="{\\"ADTs\\": {}, \\"records\\": {}, \\"relation\\": {\\"arity\\": 2, \\"types\\": [\\"i:number\\", \\"i:number\\"]}}")
+   CLEAR edge
+   CLEAR path
+  END SUBROUTINE
+  BEGIN MAIN
+   CALL stratum_0
+   CALL stratum_1
+  END MAIN
+ END PROGRAM
+`) </script>
+    
+</div>
+</div>
+<a id="MakeIndexTransformer100"></a>
+<div class='headerdiv'>
+<h1>MakeIndexTransformer  (unchanged)</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+
+</div>
+<a id="TransformerSequence101"></a>
+<div class='headerdiv'>
+<h1>TransformerSequence  (unchanged)</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+
+</div>
+<a id="LoopTransformer103"></a>
+<div class='headerdiv'>
+<h1>LoopTransformer</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+
+<a id="LoopTransformer102"></a>
+<div class='headerdiv'>
+<h1>RAM Program after LoopTransformer</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+
+        <div id="code-id-8"></div>
+        <script type="text/javascript"> renderDiff('ram', 'code-id-8', ` PROGRAM
+  DECLARATION
+   edge(x:i:number,y:i:number) 
+   path(x:i:number,y:i:number) 
+   @delta_path(x:i:number,y:i:number) 
+   @new_path(x:i:number,y:i:number) 
+  END DECLARATION
+  SUBROUTINE stratum_0
+   IO edge (IO="file",attributeNames="x\\ty",auxArity="0",fact-dir=".",name="edge",operation="input",params="{\\"records\\": {}, \\"relation\\": {\\"arity\\": 2, \\"params\\": [\\"x\\", \\"y\\"]}}",types="{\\"ADTs\\": {}, \\"records\\": {}, \\"relation\\": {\\"arity\\": 2, \\"types\\": [\\"i:number\\", \\"i:number\\"]}}")
+  END SUBROUTINE
+  SUBROUTINE stratum_1
+   DEBUG "path(x,y) :- \\n   edge(x,y).\\nin file /home/jck/example.dl [7:1-7:26]"
+    QUERY
+-    FOR t0 IN edge
+-     IF (NOT ISEMPTY(edge))
++    IF (NOT ISEMPTY(edge))
++     FOR t0 IN edge
+       INSERT (t0.0, t0.1) INTO path
+    END QUERY
+   END DEBUG
+   QUERY
+    FOR t0 IN path
+     INSERT (t0.0, t0.1) INTO @delta_path
+   END QUERY
+   LOOP
+    PARALLEL
+     DEBUG "path(x,y) :- \\n   path(x,z),\\n   edge(z,y).\\nin file /home/jck/example.dl [8:1-8:38]"
+      QUERY
+-      FOR t0 IN @delta_path
+-       IF (NOT ISEMPTY(@delta_path))
+-        FOR t1 IN edge
+-         IF (NOT ISEMPTY(edge))
+-          IF (NOT (t0.0,t1.1) IN path)
+-           IF (t0.1 = t1.0)
+-            INSERT (t0.0, t1.1) INTO @new_path
++      IF ((NOT ISEMPTY(edge)) AND (NOT ISEMPTY(@delta_path)))
++       FOR t0 IN @delta_path
++        FOR t1 IN edge ON INDEX t1.0 = t0.1
++         IF (NOT (t0.0,t1.1) IN path)
++          INSERT (t0.0, t1.1) INTO @new_path
+      END QUERY
+     END DEBUG
+    END PARALLEL
+    EXIT ISEMPTY(@new_path)
+    QUERY
+     FOR t0 IN @new_path
+      INSERT (t0.0, t0.1) INTO path
+    END QUERY
+    SWAP (@delta_path, @new_path)
+    CLEAR @new_path
+   END LOOP
+   CLEAR @delta_path
+   CLEAR @new_path
+   IO path (IO="file",attributeNames="x\\ty",auxArity="0",name="path",operation="output",output-dir=".",params="{\\"records\\": {}, \\"relation\\": {\\"arity\\": 2, \\"params\\": [\\"x\\", \\"y\\"]}}",types="{\\"ADTs\\": {}, \\"records\\": {}, \\"relation\\": {\\"arity\\": 2, \\"types\\": [\\"i:number\\", \\"i:number\\"]}}")
+   CLEAR edge
+   CLEAR path
+  END SUBROUTINE
+  BEGIN MAIN
+   CALL stratum_0
+   CALL stratum_1
+  END MAIN
+ END PROGRAM
+`) </script>
+    
+</div>
+</div>
+<a id="IfConversionTransformer104"></a>
+<div class='headerdiv'>
+<h1>IfConversionTransformer  (unchanged)</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+
+</div>
+<a id="IfExistsConversionTransformer105"></a>
+<div class='headerdiv'>
+<h1>IfExistsConversionTransformer  (unchanged)</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+
+</div>
+<a id="CollapseFiltersTransformer106"></a>
+<div class='headerdiv'>
+<h1>CollapseFiltersTransformer  (unchanged)</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+
+</div>
+<a id="TupleIdTransformer107"></a>
+<div class='headerdiv'>
+<h1>TupleIdTransformer  (unchanged)</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+
+</div>
+<a id="HoistAggregateTransformer108"></a>
+<div class='headerdiv'>
+<h1>HoistAggregateTransformer  (unchanged)</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+
+</div>
+<a id="TupleIdTransformer109"></a>
+<div class='headerdiv'>
+<h1>TupleIdTransformer  (unchanged)</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+
+</div>
+<a id="TransformerSequence110"></a>
+<div class='headerdiv'>
+<h1>TransformerSequence  (unchanged)</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+
+</div>
+<a id="LoopTransformer111"></a>
+<div class='headerdiv'>
+<h1>LoopTransformer  (unchanged)</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+
+</div>
+<a id="ExpandFilterTransformer113"></a>
+<div class='headerdiv'>
+<h1>ExpandFilterTransformer</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+
+<a id="ExpandFilterTransformer112"></a>
+<div class='headerdiv'>
+<h1>RAM Program after ExpandFilterTransformer</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+
+        <div id="code-id-9"></div>
+        <script type="text/javascript"> renderDiff('ram', 'code-id-9', ` PROGRAM
+  DECLARATION
+   edge(x:i:number,y:i:number) 
+   path(x:i:number,y:i:number) 
+   @delta_path(x:i:number,y:i:number) 
+   @new_path(x:i:number,y:i:number) 
+  END DECLARATION
+  SUBROUTINE stratum_0
+   IO edge (IO="file",attributeNames="x\\ty",auxArity="0",fact-dir=".",name="edge",operation="input",params="{\\"records\\": {}, \\"relation\\": {\\"arity\\": 2, \\"params\\": [\\"x\\", \\"y\\"]}}",types="{\\"ADTs\\": {}, \\"records\\": {}, \\"relation\\": {\\"arity\\": 2, \\"types\\": [\\"i:number\\", \\"i:number\\"]}}")
+  END SUBROUTINE
+  SUBROUTINE stratum_1
+   DEBUG "path(x,y) :- \\n   edge(x,y).\\nin file /home/jck/example.dl [7:1-7:26]"
+    QUERY
+     IF (NOT ISEMPTY(edge))
+      FOR t0 IN edge
+       INSERT (t0.0, t0.1) INTO path
+    END QUERY
+   END DEBUG
+   QUERY
+    FOR t0 IN path
+     INSERT (t0.0, t0.1) INTO @delta_path
+   END QUERY
+   LOOP
+    PARALLEL
+     DEBUG "path(x,y) :- \\n   path(x,z),\\n   edge(z,y).\\nin file /home/jck/example.dl [8:1-8:38]"
+      QUERY
+-      IF ((NOT ISEMPTY(edge)) AND (NOT ISEMPTY(@delta_path)))
+-       FOR t0 IN @delta_path
+-        FOR t1 IN edge ON INDEX t1.0 = t0.1
+-         IF (NOT (t0.0,t1.1) IN path)
+-          INSERT (t0.0, t1.1) INTO @new_path
++      IF (NOT ISEMPTY(@delta_path))
++       IF (NOT ISEMPTY(edge))
++        FOR t0 IN @delta_path
++         FOR t1 IN edge ON INDEX t1.0 = t0.1
++          IF (NOT (t0.0,t1.1) IN path)
++           INSERT (t0.0, t1.1) INTO @new_path
+      END QUERY
+     END DEBUG
+    END PARALLEL
+    EXIT ISEMPTY(@new_path)
+    QUERY
+     FOR t0 IN @new_path
+      INSERT (t0.0, t0.1) INTO path
+    END QUERY
+    SWAP (@delta_path, @new_path)
+    CLEAR @new_path
+   END LOOP
+   CLEAR @delta_path
+   CLEAR @new_path
+   IO path (IO="file",attributeNames="x\\ty",auxArity="0",name="path",operation="output",output-dir=".",params="{\\"records\\": {}, \\"relation\\": {\\"arity\\": 2, \\"params\\": [\\"x\\", \\"y\\"]}}",types="{\\"ADTs\\": {}, \\"records\\": {}, \\"relation\\": {\\"arity\\": 2, \\"types\\": [\\"i:number\\", \\"i:number\\"]}}")
+   CLEAR edge
+   CLEAR path
+  END SUBROUTINE
+  BEGIN MAIN
+   CALL stratum_0
+   CALL stratum_1
+  END MAIN
+ END PROGRAM
+`) </script>
+    
+</div>
+</div>
+<a id="HoistConditionsTransformer115"></a>
+<div class='headerdiv'>
+<h1>HoistConditionsTransformer</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+
+<a id="HoistConditionsTransformer114"></a>
+<div class='headerdiv'>
+<h1>RAM Program after HoistConditionsTransformer</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+
+        <div id="code-id-10"></div>
+        <script type="text/javascript"> renderDiff('ram', 'code-id-10', ` PROGRAM
+  DECLARATION
+   edge(x:i:number,y:i:number) 
+   path(x:i:number,y:i:number) 
+   @delta_path(x:i:number,y:i:number) 
+   @new_path(x:i:number,y:i:number) 
+  END DECLARATION
+  SUBROUTINE stratum_0
+   IO edge (IO="file",attributeNames="x\\ty",auxArity="0",fact-dir=".",name="edge",operation="input",params="{\\"records\\": {}, \\"relation\\": {\\"arity\\": 2, \\"params\\": [\\"x\\", \\"y\\"]}}",types="{\\"ADTs\\": {}, \\"records\\": {}, \\"relation\\": {\\"arity\\": 2, \\"types\\": [\\"i:number\\", \\"i:number\\"]}}")
+  END SUBROUTINE
+  SUBROUTINE stratum_1
+   DEBUG "path(x,y) :- \\n   edge(x,y).\\nin file /home/jck/example.dl [7:1-7:26]"
+    QUERY
+     IF (NOT ISEMPTY(edge))
+      FOR t0 IN edge
+       INSERT (t0.0, t0.1) INTO path
+    END QUERY
+   END DEBUG
+   QUERY
+    FOR t0 IN path
+     INSERT (t0.0, t0.1) INTO @delta_path
+   END QUERY
+   LOOP
+    PARALLEL
+     DEBUG "path(x,y) :- \\n   path(x,z),\\n   edge(z,y).\\nin file /home/jck/example.dl [8:1-8:38]"
+      QUERY
+-      IF (NOT ISEMPTY(@delta_path))
+-       IF (NOT ISEMPTY(edge))
+-        FOR t0 IN @delta_path
+-         FOR t1 IN edge ON INDEX t1.0 = t0.1
+-          IF (NOT (t0.0,t1.1) IN path)
+-           INSERT (t0.0, t1.1) INTO @new_path
++      IF ((NOT ISEMPTY(@delta_path)) AND (NOT ISEMPTY(edge)))
++       FOR t0 IN @delta_path
++        FOR t1 IN edge ON INDEX t1.0 = t0.1
++         IF (NOT (t0.0,t1.1) IN path)
++          INSERT (t0.0, t1.1) INTO @new_path
+      END QUERY
+     END DEBUG
+    END PARALLEL
+    EXIT ISEMPTY(@new_path)
+    QUERY
+     FOR t0 IN @new_path
+      INSERT (t0.0, t0.1) INTO path
+    END QUERY
+    SWAP (@delta_path, @new_path)
+    CLEAR @new_path
+   END LOOP
+   CLEAR @delta_path
+   CLEAR @new_path
+   IO path (IO="file",attributeNames="x\\ty",auxArity="0",name="path",operation="output",output-dir=".",params="{\\"records\\": {}, \\"relation\\": {\\"arity\\": 2, \\"params\\": [\\"x\\", \\"y\\"]}}",types="{\\"ADTs\\": {}, \\"records\\": {}, \\"relation\\": {\\"arity\\": 2, \\"types\\": [\\"i:number\\", \\"i:number\\"]}}")
+   CLEAR edge
+   CLEAR path
+  END SUBROUTINE
+  BEGIN MAIN
+   CALL stratum_0
+   CALL stratum_1
+  END MAIN
+ END PROGRAM
+`) </script>
+    
+</div>
+</div>
+<a id="CollapseFiltersTransformer116"></a>
+<div class='headerdiv'>
+<h1>CollapseFiltersTransformer  (unchanged)</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+
+</div>
+<a id="EliminateDuplicatesTransformer117"></a>
+<div class='headerdiv'>
+<h1>EliminateDuplicatesTransformer  (unchanged)</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+
+</div>
+<a id="ReorderConditionsTransformer119"></a>
+<div class='headerdiv'>
+<h1>ReorderConditionsTransformer</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+
+<a id="ReorderConditionsTransformer118"></a>
+<div class='headerdiv'>
+<h1>RAM Program after ReorderConditionsTransformer</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+
+        <div id="code-id-11"></div>
+        <script type="text/javascript"> renderDiff('ram', 'code-id-11', ` PROGRAM
+  DECLARATION
+   edge(x:i:number,y:i:number) 
+   path(x:i:number,y:i:number) 
+   @delta_path(x:i:number,y:i:number) 
+   @new_path(x:i:number,y:i:number) 
+  END DECLARATION
+  SUBROUTINE stratum_0
+   IO edge (IO="file",attributeNames="x\\ty",auxArity="0",fact-dir=".",name="edge",operation="input",params="{\\"records\\": {}, \\"relation\\": {\\"arity\\": 2, \\"params\\": [\\"x\\", \\"y\\"]}}",types="{\\"ADTs\\": {}, \\"records\\": {}, \\"relation\\": {\\"arity\\": 2, \\"types\\": [\\"i:number\\", \\"i:number\\"]}}")
+  END SUBROUTINE
+  SUBROUTINE stratum_1
+   DEBUG "path(x,y) :- \\n   edge(x,y).\\nin file /home/jck/example.dl [7:1-7:26]"
+    QUERY
+     IF (NOT ISEMPTY(edge))
+      FOR t0 IN edge
+       INSERT (t0.0, t0.1) INTO path
+    END QUERY
+   END DEBUG
+   QUERY
+    FOR t0 IN path
+     INSERT (t0.0, t0.1) INTO @delta_path
+   END QUERY
+   LOOP
+    PARALLEL
+     DEBUG "path(x,y) :- \\n   path(x,z),\\n   edge(z,y).\\nin file /home/jck/example.dl [8:1-8:38]"
+      QUERY
+       IF ((NOT ISEMPTY(@delta_path)) AND (NOT ISEMPTY(edge)))
+        FOR t0 IN @delta_path
+         FOR t1 IN edge ON INDEX t1.0 = t0.1
+          IF (NOT (t0.0,t1.1) IN path)
+           INSERT (t0.0, t1.1) INTO @new_path
+      END QUERY
+     END DEBUG
+    END PARALLEL
+    EXIT ISEMPTY(@new_path)
+    QUERY
+     FOR t0 IN @new_path
+      INSERT (t0.0, t0.1) INTO path
+    END QUERY
+    SWAP (@delta_path, @new_path)
+    CLEAR @new_path
+   END LOOP
+   CLEAR @delta_path
+   CLEAR @new_path
+   IO path (IO="file",attributeNames="x\\ty",auxArity="0",name="path",operation="output",output-dir=".",params="{\\"records\\": {}, \\"relation\\": {\\"arity\\": 2, \\"params\\": [\\"x\\", \\"y\\"]}}",types="{\\"ADTs\\": {}, \\"records\\": {}, \\"relation\\": {\\"arity\\": 2, \\"types\\": [\\"i:number\\", \\"i:number\\"]}}")
+   CLEAR edge
+   CLEAR path
+  END SUBROUTINE
+  BEGIN MAIN
+   CALL stratum_0
+   CALL stratum_1
+  END MAIN
+ END PROGRAM
+`) </script>
+    
+</div>
+</div>
+<a id="ReorderFilterBreak120"></a>
+<div class='headerdiv'>
+<h1>ReorderFilterBreak  (unchanged)</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+
+</div>
+<a id="LoopTransformer121"></a>
+<div class='headerdiv'>
+<h1>LoopTransformer  (unchanged)</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+
+</div>
+<a id="ConditionalTransformer122"></a>
+<div class='headerdiv'>
+<h1>ConditionalTransformer  (unchanged)</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+
+</div>
+<a id="index-analysis123"></a>
+<div class='headerdiv'>
+<h1>RAM Analysis index-analysis</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+<pre>Relation @delta_path
+	Number of Searches: 1
+		11
+	Number of Indexes: 1
+		0&lt1
+
+Relation @new_path
+	Number of Searches: 1
+		11
+	Number of Indexes: 1
+		0&lt1
+
+Relation edge
+	Number of Searches: 2
+		11
+		10
+	Number of Indexes: 1
+		0&lt1
+
+Relation path
+	Number of Searches: 1
+		11
+	Number of Indexes: 1
+		0&lt1
+
+</pre>
+</div>
+<a id="ReportIndexTransformer124"></a>
+<div class='headerdiv'>
+<h1>ReportIndexTransformer  (unchanged)</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+
+</div>
+<a id="TransformerSequence125"></a>
+<div class='headerdiv'>
+<h1>TransformerSequence  (unchanged)</h1>
+<a href='#'>(return to top)</a>
+</div><div style='clear:both'></div>
+<div style='padding-left: 1em'>
+
+</div>
+<a href='#'>(return to top)</a>
+</body>
+</html>

@@ -1,0 +1,148 @@
+{
+ "root": {
+  "program": {
+   "configuration": {
+    "": "example.dl",
+    "fact-dir": ".",
+    "include-dir": " -I.",
+    "jobs": "1",
+    "output-dir": ".",
+    "profile": "example.log",
+    "relationCount": "2",
+    "ruleCount": "4",
+    "version": "2.1"
+   },
+   "relation": {
+    "edge": {
+     "loadtime": { "start": 1635154599389980, "end": 1635154599390104},
+     "num-tuples": 2,
+     "reads": 0,
+     "source-locator": "/home/jck/example.dl [1:7-1:11]"
+    },
+    "path": {
+     "iteration": {
+      "0": {
+       "copytime": { "start": 1635154599390208, "end": 1635154599390213},
+       "maxRSS": {
+        "post": 9348,
+        "pre": 9348
+       },
+       "num-tuples": 1,
+       "recursive-rule": {
+        "path(x,y) :- \n   path(x,z),\n   edge(z,y).": {
+         "0": {
+          "atom-frequency": {
+           "@new_path(x,y) :- \n   @delta_path(x,z),\n   edge(z,y).": {
+            "@delta_path": {
+             "level": 0,
+             "num-tuples": 0
+            },
+            "edge": {
+             "level": 1,
+             "num-tuples": 0
+            }
+           }
+          },
+          "maxRSS": {
+           "post": 9348,
+           "pre": 9348
+          },
+          "num-tuples": 1,
+          "runtime": { "start": 1635154599390166, "end": 1635154599390178},
+          "source-locator": "/home/jck/example.dl [8:1-8:38]"
+         }
+        }
+       },
+       "runtime": { "start": 1635154599390161, "end": 1635154599390197}
+      },
+      "1": {
+       "maxRSS": {
+        "post": 9348,
+        "pre": 9348
+       },
+       "num-tuples": 0,
+       "recursive-rule": {
+        "path(x,y) :- \n   path(x,z),\n   edge(z,y).": {
+         "0": {
+          "maxRSS": {
+           "post": 9348,
+           "pre": 9348
+          },
+          "num-tuples": 0,
+          "runtime": { "start": 1635154599390223, "end": 1635154599390226},
+          "source-locator": "/home/jck/example.dl [8:1-8:38]"
+         }
+        }
+       },
+       "runtime": { "start": 1635154599390222, "end": 1635154599390240}
+      }
+     },
+     "maxRSS": {
+      "post": 9348,
+      "pre": 9348
+     },
+     "non-recursive-rule": {
+      "path(x,y) :- \n   edge(x,y).": {
+       "atom-frequency": {
+        "path(x,y) :- \n   edge(x,y).": {
+         "edge": {
+          "level": 0,
+          "num-tuples": 0
+         }
+        }
+       },
+       "maxRSS": {
+        "post": 9348,
+        "pre": 9348
+       },
+       "num-tuples": 2,
+       "runtime": { "start": 1635154599390129, "end": 1635154599390133},
+       "source-locator": "/home/jck/example.dl [7:1-7:26]"
+      }
+     },
+     "num-tuples": 2,
+     "reads": 1,
+     "runtime": { "start": 1635154599390121, "end": 1635154599390150},
+     "savetime": { "start": 1635154599390248, "end": 1635154599390433},
+     "source-locator": "/home/jck/example.dl [4:7-4:11]"
+    }
+   },
+   "runtime": { "start": 1635154599389976, "end": 1635154599390443},
+   "starttime": { "time": 1635154599389925},
+   "usage": {
+    "timepoint": {
+     "1635154599389943": {
+      "maxRSS": 9348,
+      "systemtime": 0,
+      "usertime": 6801
+     },
+     "1635154599390144": {
+      "maxRSS": 9348,
+      "systemtime": 0,
+      "usertime": 7085
+     },
+     "1635154599390173": {
+      "maxRSS": 9348,
+      "systemtime": 0,
+      "usertime": 7135
+     },
+     "1635154599390218": {
+      "maxRSS": 9348,
+      "systemtime": 0,
+      "usertime": 7193
+     },
+     "1635154599390225": {
+      "maxRSS": 9348,
+      "systemtime": 0,
+      "usertime": 7211
+     },
+     "1635154599390258": {
+      "maxRSS": 9348,
+      "systemtime": 0,
+      "usertime": 7246
+     }
+    }
+   }
+  }
+ }
+}
