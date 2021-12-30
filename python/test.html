@@ -1,0 +1,2663 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta charset="UTF-8">
+
+<title>
+    Bandit Report
+</title>
+
+<style>
+
+html * {
+    font-family: "Arial", sans-serif;
+}
+
+pre {
+    font-family: "Monaco", monospace;
+}
+
+.bordered-box {
+    border: 1px solid black;
+    padding-top:.5em;
+    padding-bottom:.5em;
+    padding-left:1em;
+}
+
+.metrics-box {
+    font-size: 1.1em;
+    line-height: 130%;
+}
+
+.metrics-title {
+    font-size: 1.5em;
+    font-weight: 500;
+    margin-bottom: .25em;
+}
+
+.issue-description {
+    font-size: 1.3em;
+    font-weight: 500;
+}
+
+.candidate-issues {
+    margin-left: 2em;
+    border-left: solid 1px; LightGray;
+    padding-left: 5%;
+    margin-top: .2em;
+    margin-bottom: .2em;
+}
+
+.issue-block {
+    border: 1px solid LightGray;
+    padding-left: .5em;
+    padding-top: .5em;
+    padding-bottom: .5em;
+    margin-bottom: .5em;
+}
+
+.issue-sev-high {
+    background-color: Pink;
+}
+
+.issue-sev-medium {
+    background-color: NavajoWhite;
+}
+
+.issue-sev-low {
+    background-color: LightCyan;
+}
+
+</style>
+</head>
+
+<body>
+
+<div id="metrics">
+    <div class="metrics-box bordered-box">
+        <div class="metrics-title">
+            Metrics:<br>
+        </div>
+        Total lines of code: <span id="loc">118379</span><br>
+        Total lines skipped (#nosec): <span id="nosec">75</span>
+    </div>
+</div>
+
+
+
+
+<br>
+<div id="results">
+    
+<div id="issue-0">
+<div class="issue-block issue-sev-low">
+    <b>hardcoded_password_funcarg: </b> Possible hardcoded password: 'ADMIN'<br>
+    <b>Test ID:</b> B106<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>MEDIUM<br>
+    <b>File: </b><a href="keystone/keystone/tests/protection/v3/test_trusts.py" target="_blank">keystone/keystone/tests/protection/v3/test_trusts.py</a> <br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/latest/plugins/b106_hardcoded_password_funcarg.html" target="_blank">https://bandit.readthedocs.io/en/latest/plugins/b106_hardcoded_password_funcarg.html</a><br>
+
+<div class="code">
+<pre>
+159	        super(AdminTokenTests, self).setUp()
+160	        self.config_fixture.config(admin_token=&#x27;ADMIN&#x27;)
+161	        self.headers = {&#x27;X-Auth-Token&#x27;: &#x27;ADMIN&#x27;}
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-1">
+<div class="issue-block issue-sev-low">
+    <b>hardcoded_password_funcarg: </b> Possible hardcoded password: '^(?=.*\d)(?=.*[a-zA-Z]).{7,}$'<br>
+    <b>Test ID:</b> B106<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>MEDIUM<br>
+    <b>File: </b><a href="keystone/keystone/tests/unit/common/test_notifications.py" target="_blank">keystone/keystone/tests/unit/common/test_notifications.py</a> <br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/latest/plugins/b106_hardcoded_password_funcarg.html" target="_blank">https://bandit.readthedocs.io/en/latest/plugins/b106_hardcoded_password_funcarg.html</a><br>
+
+<div class="code">
+<pre>
+760	                    minimum_password_age=2)
+761	        conf.config(group=&#x27;security_compliance&#x27;,
+762	                    password_regex=r&#x27;^(?=.*\d)(?=.*[a-zA-Z]).{7,}$&#x27;)
+763	        conf.config(group=&#x27;security_compliance&#x27;,
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-2">
+<div class="issue-block issue-sev-low">
+    <b>hardcoded_password_funcarg: </b> Possible hardcoded password: '1 letter, 1 digit, 7 chars'<br>
+    <b>Test ID:</b> B106<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>MEDIUM<br>
+    <b>File: </b><a href="keystone/keystone/tests/unit/common/test_notifications.py" target="_blank">keystone/keystone/tests/unit/common/test_notifications.py</a> <br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/latest/plugins/b106_hardcoded_password_funcarg.html" target="_blank">https://bandit.readthedocs.io/en/latest/plugins/b106_hardcoded_password_funcarg.html</a><br>
+
+<div class="code">
+<pre>
+762	                    password_regex=r&#x27;^(?=.*\d)(?=.*[a-zA-Z]).{7,}$&#x27;)
+763	        conf.config(group=&#x27;security_compliance&#x27;,
+764	                    password_regex_description=&#x27;1 letter, 1 digit, 7 chars&#x27;)
+765	
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-3">
+<div class="issue-block issue-sev-low">
+    <b>hardcoded_password_string: </b> Possible hardcoded password: '1'<br>
+    <b>Test ID:</b> B105<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>MEDIUM<br>
+    <b>File: </b><a href="keystone/keystone/tests/unit/common/test_notifications.py" target="_blank">keystone/keystone/tests/unit/common/test_notifications.py</a> <br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/latest/plugins/b105_hardcoded_password_string.html" target="_blank">https://bandit.readthedocs.io/en/latest/plugins/b105_hardcoded_password_string.html</a><br>
+
+<div class="code">
+<pre>
+856	        password = uuid.uuid4().hex
+857	        invalid_password = &#x27;1&#x27;
+858	        regex = CONF.security_compliance.password_regex_description
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-4">
+<div class="issue-block issue-sev-low">
+    <b>hardcoded_password_funcarg: </b> Possible hardcoded password: 'ADMIN'<br>
+    <b>Test ID:</b> B106<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>MEDIUM<br>
+    <b>File: </b><a href="keystone/keystone/tests/unit/common/test_rbac_enforcer.py" target="_blank">keystone/keystone/tests/unit/common/test_rbac_enforcer.py</a> <br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/latest/plugins/b106_hardcoded_password_funcarg.html" target="_blank">https://bandit.readthedocs.io/en/latest/plugins/b106_hardcoded_password_funcarg.html</a><br>
+
+<div class="code">
+<pre>
+199	        super(TestRBACEnforcerRestAdminAuthToken, self).config_overrides()
+200	        self.config_fixture.config(admin_token=&#x27;ADMIN&#x27;)
+201	
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-5">
+<div class="issue-block issue-sev-low">
+    <b>hardcoded_password_string: </b> Possible hardcoded password: '/v3/auth/tokens'<br>
+    <b>Test ID:</b> B105<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>MEDIUM<br>
+    <b>File: </b><a href="keystone/keystone/tests/unit/common/test_rbac_enforcer.py" target="_blank">keystone/keystone/tests/unit/common/test_rbac_enforcer.py</a> <br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/latest/plugins/b105_hardcoded_password_string.html" target="_blank">https://bandit.readthedocs.io/en/latest/plugins/b105_hardcoded_password_string.html</a><br>
+
+<div class="code">
+<pre>
+308	        # Check that the auth_context is in-fact decoded as expected.
+309	        token_path = &#x27;/v3/auth/tokens&#x27;
+310	        auth_json = self._auth_json()
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-6">
+<div class="issue-block issue-sev-low">
+    <b>hardcoded_password_string: </b> Possible hardcoded password: '/v3/auth/tokens'<br>
+    <b>Test ID:</b> B105<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>MEDIUM<br>
+    <b>File: </b><a href="keystone/keystone/tests/unit/common/test_rbac_enforcer.py" target="_blank">keystone/keystone/tests/unit/common/test_rbac_enforcer.py</a> <br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/latest/plugins/b105_hardcoded_password_string.html" target="_blank">https://bandit.readthedocs.io/en/latest/plugins/b105_hardcoded_password_string.html</a><br>
+
+<div class="code">
+<pre>
+329	        # environment.
+330	        token_path = &#x27;/v3/auth/tokens&#x27;
+331	        auth_json = self._auth_json()
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-7">
+<div class="issue-block issue-sev-low">
+    <b>hardcoded_password_string: </b> Possible hardcoded password: '/v3/auth/tokens'<br>
+    <b>Test ID:</b> B105<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>MEDIUM<br>
+    <b>File: </b><a href="keystone/keystone/tests/unit/common/test_rbac_enforcer.py" target="_blank">keystone/keystone/tests/unit/common/test_rbac_enforcer.py</a> <br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/latest/plugins/b105_hardcoded_password_string.html" target="_blank">https://bandit.readthedocs.io/en/latest/plugins/b105_hardcoded_password_string.html</a><br>
+
+<div class="code">
+<pre>
+517	    def test_enforce_call_explicit_target_attr(self):
+518	        token_path = &#x27;/v3/auth/tokens&#x27;
+519	        auth_json = self._auth_json()
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-8">
+<div class="issue-block issue-sev-low">
+    <b>hardcoded_password_string: </b> Possible hardcoded password: '/v3/auth/tokens'<br>
+    <b>Test ID:</b> B105<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>MEDIUM<br>
+    <b>File: </b><a href="keystone/keystone/tests/unit/common/test_rbac_enforcer.py" target="_blank">keystone/keystone/tests/unit/common/test_rbac_enforcer.py</a> <br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/latest/plugins/b105_hardcoded_password_string.html" target="_blank">https://bandit.readthedocs.io/en/latest/plugins/b105_hardcoded_password_string.html</a><br>
+
+<div class="code">
+<pre>
+542	    def test_enforce_call_with_subject_token_data(self):
+543	        token_path = &#x27;/v3/auth/tokens&#x27;
+544	        auth_json = self._auth_json()
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-9">
+<div class="issue-block issue-sev-low">
+    <b>hardcoded_password_string: </b> Possible hardcoded password: '/v3/auth/tokens'<br>
+    <b>Test ID:</b> B105<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>MEDIUM<br>
+    <b>File: </b><a href="keystone/keystone/tests/unit/common/test_rbac_enforcer.py" target="_blank">keystone/keystone/tests/unit/common/test_rbac_enforcer.py</a> <br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/latest/plugins/b105_hardcoded_password_string.html" target="_blank">https://bandit.readthedocs.io/en/latest/plugins/b105_hardcoded_password_string.html</a><br>
+
+<div class="code">
+<pre>
+557	    def test_enforce_call_with_member_target_type_and_member_target(self):
+558	        token_path = &#x27;/v3/auth/tokens&#x27;
+559	        auth_json = self._auth_json()
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-10">
+<div class="issue-block issue-sev-low">
+    <b>hardcoded_password_string: </b> Possible hardcoded password: '/v3/auth/tokens'<br>
+    <b>Test ID:</b> B105<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>MEDIUM<br>
+    <b>File: </b><a href="keystone/keystone/tests/unit/common/test_rbac_enforcer.py" target="_blank">keystone/keystone/tests/unit/common/test_rbac_enforcer.py</a> <br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/latest/plugins/b105_hardcoded_password_string.html" target="_blank">https://bandit.readthedocs.io/en/latest/plugins/b105_hardcoded_password_string.html</a><br>
+
+<div class="code">
+<pre>
+585	
+586	        token_path = &#x27;/v3/auth/tokens&#x27;
+587	        auth_json = self._auth_json()
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-11">
+<div class="issue-block issue-sev-low">
+    <b>hardcoded_password_string: </b> Possible hardcoded password: '/v3/auth/tokens'<br>
+    <b>Test ID:</b> B105<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>MEDIUM<br>
+    <b>File: </b><a href="keystone/keystone/tests/unit/common/test_rbac_enforcer.py" target="_blank">keystone/keystone/tests/unit/common/test_rbac_enforcer.py</a> <br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/latest/plugins/b105_hardcoded_password_string.html" target="_blank">https://bandit.readthedocs.io/en/latest/plugins/b105_hardcoded_password_string.html</a><br>
+
+<div class="code">
+<pre>
+601	    def test_enforce_call_with_filter_values(self):
+602	        token_path = &#x27;/v3/auth/tokens&#x27;
+603	        auth_json = self._auth_json()
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-12">
+<div class="issue-block issue-sev-low">
+    <b>hardcoded_password_string: </b> Possible hardcoded password: '/v3/auth/tokens'<br>
+    <b>Test ID:</b> B105<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>MEDIUM<br>
+    <b>File: </b><a href="keystone/keystone/tests/unit/common/test_rbac_enforcer.py" target="_blank">keystone/keystone/tests/unit/common/test_rbac_enforcer.py</a> <br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/latest/plugins/b105_hardcoded_password_string.html" target="_blank">https://bandit.readthedocs.io/en/latest/plugins/b105_hardcoded_password_string.html</a><br>
+
+<div class="code">
+<pre>
+641	    def test_enforce_call_with_pre_instantiated_enforcer(self):
+642	        token_path = &#x27;/v3/auth/tokens&#x27;
+643	        auth_json = self._auth_json()
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-13">
+<div class="issue-block issue-sev-low">
+    <b>hardcoded_password_string: </b> Possible hardcoded password: '/v3/auth/tokens'<br>
+    <b>Test ID:</b> B105<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>MEDIUM<br>
+    <b>File: </b><a href="keystone/keystone/tests/unit/common/test_rbac_enforcer.py" target="_blank">keystone/keystone/tests/unit/common/test_rbac_enforcer.py</a> <br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/latest/plugins/b105_hardcoded_password_string.html" target="_blank">https://bandit.readthedocs.io/en/latest/plugins/b105_hardcoded_password_string.html</a><br>
+
+<div class="code">
+<pre>
+662	        # enforce_call has actually been called
+663	        token_path = &#x27;/v3/auth/tokens&#x27;
+664	        auth_json = self._auth_json()
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-14">
+<div class="issue-block issue-sev-low">
+    <b>hardcoded_password_string: </b> Possible hardcoded password: 'right'<br>
+    <b>Test ID:</b> B105<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>MEDIUM<br>
+    <b>File: </b><a href="keystone/keystone/tests/unit/common/test_utils.py" target="_blank">keystone/keystone/tests/unit/common/test_utils.py</a> <br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/latest/plugins/b105_hardcoded_password_string.html" target="_blank">https://bandit.readthedocs.io/en/latest/plugins/b105_hardcoded_password_string.html</a><br>
+
+<div class="code">
+<pre>
+69	    def test_hash(self):
+70	        password = &#x27;right&#x27;
+71	        wrong = &#x27;wrongwrong&#x27;  # Two wrongs don&#x27;t make a right
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-15">
+<div class="issue-block issue-sev-low">
+    <b>hardcoded_password_string: </b> Possible hardcoded password: 'passw0rd'<br>
+    <b>Test ID:</b> B105<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>MEDIUM<br>
+    <b>File: </b><a href="keystone/keystone/tests/unit/common/test_utils.py" target="_blank">keystone/keystone/tests/unit/common/test_utils.py</a> <br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/latest/plugins/b105_hardcoded_password_string.html" target="_blank">https://bandit.readthedocs.io/en/latest/plugins/b105_hardcoded_password_string.html</a><br>
+
+<div class="code">
+<pre>
+97	        max_length = CONF.identity.max_password_length
+98	        invalid_password = &#x27;passw0rd&#x27;
+99	        trunc = common_utils.verify_length_and_trunc_password(invalid_password)
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-16">
+<div class="issue-block issue-sev-low">
+    <b>hardcoded_password_string: </b> Possible hardcoded password: 'passw0rd'<br>
+    <b>Test ID:</b> B105<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>MEDIUM<br>
+    <b>File: </b><a href="keystone/keystone/tests/unit/common/test_utils.py" target="_blank">keystone/keystone/tests/unit/common/test_utils.py</a> <br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/latest/plugins/b105_hardcoded_password_string.html" target="_blank">https://bandit.readthedocs.io/en/latest/plugins/b105_hardcoded_password_string.html</a><br>
+
+<div class="code">
+<pre>
+104	        self.config_fixture.config(group=&#x27;identity&#x27;, max_password_length=5)
+105	        invalid_password = &#x27;passw0rd&#x27;
+106	        self.assertRaises(exception.PasswordVerificationError,
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-17">
+<div class="issue-block issue-sev-low">
+    <b>hardcoded_password_string: </b> Possible hardcoded password: ''<br>
+    <b>Test ID:</b> B105<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>MEDIUM<br>
+    <b>File: </b><a href="keystone/keystone/tests/unit/common/test_utils.py" target="_blank">keystone/keystone/tests/unit/common/test_utils.py</a> <br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/latest/plugins/b105_hardcoded_password_string.html" target="_blank">https://bandit.readthedocs.io/en/latest/plugins/b105_hardcoded_password_string.html</a><br>
+
+<div class="code">
+<pre>
+154	    def test_hash_user_password_with_empty_password(self):
+155	        password = &#x27;&#x27;
+156	        user = self._create_test_user(password=password)
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-18">
+<div class="issue-block issue-sev-low">
+    <b>hardcoded_password_string: </b> Possible hardcoded password: 'Comment ça va'<br>
+    <b>Test ID:</b> B105<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>MEDIUM<br>
+    <b>File: </b><a href="keystone/keystone/tests/unit/common/test_utils.py" target="_blank">keystone/keystone/tests/unit/common/test_utils.py</a> <br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/latest/plugins/b105_hardcoded_password_string.html" target="_blank">https://bandit.readthedocs.io/en/latest/plugins/b105_hardcoded_password_string.html</a><br>
+
+<div class="code">
+<pre>
+166	    def test_hash_unicode(self):
+167	        password = u&#x27;Comment \xe7a va&#x27;
+168	        wrong = &#x27;Comment ?a va&#x27;
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-19">
+<div class="issue-block issue-sev-low">
+    <b>assert_used: </b> Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.<br>
+    <b>Test ID:</b> B101<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>HIGH<br>
+    <b>File: </b><a href="keystone/keystone/tests/unit/core.py" target="_blank">keystone/keystone/tests/unit/core.py</a> <br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/latest/plugins/b101_assert_used.html" target="_blank">https://bandit.readthedocs.io/en/latest/plugins/b101_assert_used.html</a><br>
+
+<div class="code">
+<pre>
+801	        # called a single time.
+802	        assert self.__config_overrides_called is False
+803	        self.__config_overrides_called = True
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-20">
+<div class="issue-block issue-sev-low">
+    <b>assert_used: </b> Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.<br>
+    <b>Test ID:</b> B101<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>HIGH<br>
+    <b>File: </b><a href="keystone/keystone/tests/unit/core.py" target="_blank">keystone/keystone/tests/unit/core.py</a> <br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/latest/plugins/b101_assert_used.html" target="_blank">https://bandit.readthedocs.io/en/latest/plugins/b101_assert_used.html</a><br>
+
+<div class="code">
+<pre>
+862	    def _assert_config_overrides_called(self):
+863	        assert self.__config_overrides_called is True
+864	
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-21">
+<div class="issue-block issue-sev-low">
+    <b>blacklist: </b> Consider possible security implications associated with shelve module.<br>
+    <b>Test ID:</b> B403<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>HIGH<br>
+    <b>File: </b><a href="keystone/keystone/tests/unit/fakeldap.py" target="_blank">keystone/keystone/tests/unit/fakeldap.py</a> <br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/latest/blacklists/blacklist_imports.html#b403-import-pickle" target="_blank">https://bandit.readthedocs.io/en/latest/blacklists/blacklist_imports.html#b403-import-pickle</a><br>
+
+<div class="code">
+<pre>
+26	import re
+27	import shelve
+28	
+29	import ldap
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-22">
+<div class="issue-block issue-sev-medium">
+    <b>blacklist: </b> Pickle and modules that wrap it can be unsafe when used to deserialize untrusted data, possible security issue.<br>
+    <b>Test ID:</b> B301<br>
+    <b>Severity: </b>MEDIUM<br>
+    <b>Confidence: </b>HIGH<br>
+    <b>File: </b><a href="keystone/keystone/tests/unit/fakeldap.py" target="_blank">keystone/keystone/tests/unit/fakeldap.py</a> <br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/latest/blacklists/blacklist_calls.html#b301-pickle" target="_blank">https://bandit.readthedocs.io/en/latest/blacklists/blacklist_calls.html#b301-pickle</a><br>
+
+<div class="code">
+<pre>
+252	        else:
+253	            self.db = shelve.open(url[7:])
+254	
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-23">
+<div class="issue-block issue-sev-low">
+    <b>hardcoded_password_string: </b> Possible hardcoded password: ''<br>
+    <b>Test ID:</b> B105<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>MEDIUM<br>
+    <b>File: </b><a href="keystone/keystone/tests/unit/fakeldap.py" target="_blank">keystone/keystone/tests/unit/fakeldap.py</a> <br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/latest/plugins/b105_hardcoded_password_string.html" target="_blank">https://bandit.readthedocs.io/en/latest/plugins/b105_hardcoded_password_string.html</a><br>
+
+<div class="code">
+<pre>
+304	
+305	        db_password = &#x27;&#x27;
+306	        if attrs:
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-24">
+<div class="issue-block issue-sev-low">
+    <b>blacklist: </b> Standard pseudo-random generators are not suitable for security/cryptographic purposes.<br>
+    <b>Test ID:</b> B311<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>HIGH<br>
+    <b>File: </b><a href="keystone/keystone/tests/unit/fakeldap.py" target="_blank">keystone/keystone/tests/unit/fakeldap.py</a> <br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/latest/blacklists/blacklist_calls.html#b311-random" target="_blank">https://bandit.readthedocs.io/en/latest/blacklists/blacklist_calls.html#b311-random</a><br>
+
+<div class="code">
+<pre>
+543	        # performing the real lookup in result3()
+544	        msgid = random.randint(0, 1000)
+545	        PendingRequests[msgid] = (base, scope, filterstr, attrlist, attrsonly,
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-25">
+<div class="issue-block issue-sev-medium">
+    <b>blacklist: </b> Pickle and modules that wrap it can be unsafe when used to deserialize untrusted data, possible security issue.<br>
+    <b>Test ID:</b> B301<br>
+    <b>Severity: </b>MEDIUM<br>
+    <b>Confidence: </b>HIGH<br>
+    <b>File: </b><a href="keystone/keystone/tests/unit/fakeldap.py" target="_blank">keystone/keystone/tests/unit/fakeldap.py</a> <br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/latest/blacklists/blacklist_calls.html#b301-pickle" target="_blank">https://bandit.readthedocs.io/en/latest/blacklists/blacklist_calls.html#b301-pickle</a><br>
+
+<div class="code">
+<pre>
+605	        else:
+606	            self.db = shelve.open(self.url[11:])
+607	
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-26">
+<div class="issue-block issue-sev-low">
+    <b>hardcoded_password_funcarg: </b> Possible hardcoded password: 'password'<br>
+    <b>Test ID:</b> B106<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>MEDIUM<br>
+    <b>File: </b><a href="keystone/keystone/tests/unit/identity/backends/test_ldap.py" target="_blank">keystone/keystone/tests/unit/identity/backends/test_ldap.py</a> <br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/latest/plugins/b106_hardcoded_password_funcarg.html" target="_blank">https://bandit.readthedocs.io/en/latest/plugins/b106_hardcoded_password_funcarg.html</a><br>
+
+<div class="code">
+<pre>
+34	        config_fixture_ = self.useFixture(config_fixture.Config())
+35	        config_fixture_.config(
+36	            group=&#x27;ldap&#x27;,
+37	            url=&#x27;fake://memory&#x27;,
+38	            user=&#x27;cn=Admin&#x27;,
+39	            password=&#x27;password&#x27;,
+40	            suffix=&#x27;cn=example,cn=com&#x27;)
+41	
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-27">
+<div class="issue-block issue-sev-low">
+    <b>hardcoded_password_funcarg: </b> Possible hardcoded password: 'scrypt'<br>
+    <b>Test ID:</b> B106<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>MEDIUM<br>
+    <b>File: </b><a href="keystone/keystone/tests/unit/identity/test_backend_sql.py" target="_blank">keystone/keystone/tests/unit/identity/test_backend_sql.py</a> <br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/latest/plugins/b106_hardcoded_password_funcarg.html" target="_blank">https://bandit.readthedocs.io/en/latest/plugins/b106_hardcoded_password_funcarg.html</a><br>
+
+<div class="code">
+<pre>
+60	        super(UserPasswordHashingTestsNoCompat, self).config_overrides()
+61	        self.config_fixture.config(group=&#x27;identity&#x27;,
+62	                                   password_hash_algorithm=&#x27;scrypt&#x27;)
+63	
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-28">
+<div class="issue-block issue-sev-low">
+    <b>hardcoded_password_funcarg: </b> Possible hardcoded password: 'password'<br>
+    <b>Test ID:</b> B106<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>MEDIUM<br>
+    <b>File: </b><a href="keystone/keystone/tests/unit/identity/test_backends.py" target="_blank">keystone/keystone/tests/unit/identity/test_backends.py</a> <br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/latest/plugins/b106_hardcoded_password_funcarg.html" target="_blank">https://bandit.readthedocs.io/en/latest/plugins/b106_hardcoded_password_funcarg.html</a><br>
+
+<div class="code">
+<pre>
+105	        with self.make_request():
+106	            self.assertRaises(AssertionError,
+107	                              PROVIDERS.identity_api.authenticate,
+108	                              user_id=id_,
+109	                              password=&#x27;password&#x27;)
+110	
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-29">
+<div class="issue-block issue-sev-low">
+    <b>hardcoded_password_funcarg: </b> Possible hardcoded password: ''<br>
+    <b>Test ID:</b> B106<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>MEDIUM<br>
+    <b>File: </b><a href="keystone/keystone/tests/unit/identity/test_backends.py" target="_blank">keystone/keystone/tests/unit/identity/test_backends.py</a> <br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/latest/plugins/b106_hardcoded_password_funcarg.html" target="_blank">https://bandit.readthedocs.io/en/latest/plugins/b106_hardcoded_password_funcarg.html</a><br>
+
+<div class="code">
+<pre>
+388	        with self.make_request():
+389	            self.assertRaises(AssertionError,
+390	                              PROVIDERS.identity_api.authenticate,
+391	                              user_id=user[&#x27;id&#x27;],
+392	                              password=&#x27;&#x27;)
+393	            self.assertRaises(AssertionError,
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-30">
+<div class="issue-block issue-sev-low">
+    <b>hardcoded_password_funcarg: </b> Possible hardcoded password: ''<br>
+    <b>Test ID:</b> B106<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>MEDIUM<br>
+    <b>File: </b><a href="keystone/keystone/tests/unit/identity/test_backends.py" target="_blank">keystone/keystone/tests/unit/identity/test_backends.py</a> <br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/latest/plugins/b106_hardcoded_password_funcarg.html" target="_blank">https://bandit.readthedocs.io/en/latest/plugins/b106_hardcoded_password_funcarg.html</a><br>
+
+<div class="code">
+<pre>
+405	        with self.make_request():
+406	            self.assertRaises(AssertionError,
+407	                              PROVIDERS.identity_api.authenticate,
+408	                              user_id=user[&#x27;id&#x27;],
+409	                              password=&#x27;&#x27;)
+410	            self.assertRaises(AssertionError,
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-31">
+<div class="issue-block issue-sev-medium">
+    <b>blacklist: </b> Use of insecure MD2, MD4, MD5, or SHA1 hash function.<br>
+    <b>Test ID:</b> B303<br>
+    <b>Severity: </b>MEDIUM<br>
+    <b>Confidence: </b>HIGH<br>
+    <b>File: </b><a href="keystone/keystone/tests/unit/receipt/test_fernet_provider.py" target="_blank">keystone/keystone/tests/unit/receipt/test_fernet_provider.py</a> <br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/latest/blacklists/blacklist_calls.html#b303-md5" target="_blank">https://bandit.readthedocs.io/en/latest/blacklists/blacklist_calls.html#b303-md5</a><br>
+
+<div class="code">
+<pre>
+277	        # Create the thumbprint using all keys in the repository.
+278	        signature = hashlib.sha1()
+279	        for key in keys:
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-32">
+<div class="issue-block issue-sev-low">
+    <b>assert_used: </b> Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.<br>
+    <b>Test ID:</b> B101<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>HIGH<br>
+    <b>File: </b><a href="keystone/keystone/tests/unit/test_backend_ldap.py" target="_blank">keystone/keystone/tests/unit/test_backend_ldap.py</a> <br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/latest/plugins/b101_assert_used.html" target="_blank">https://bandit.readthedocs.io/en/latest/plugins/b101_assert_used.html</a><br>
+
+<div class="code">
+<pre>
+77	            subsystem = &#x27;%s[domain=%s]&#x27; % (subsystem, domain)
+78	        assert expected_cls == observed_cls, msg % {
+79	            &#x27;expected_cls&#x27;: expected_cls,
+80	            &#x27;observed_cls&#x27;: observed_cls,
+81	            &#x27;subsystem&#x27;: subsystem,
+82	        }
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-33">
+<div class="issue-block issue-sev-low">
+    <b>hardcoded_password_string: </b> Possible hardcoded password: 'fäképass2'<br>
+    <b>Test ID:</b> B105<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>MEDIUM<br>
+    <b>File: </b><a href="keystone/keystone/tests/unit/test_backend_ldap.py" target="_blank">keystone/keystone/tests/unit/test_backend_ldap.py</a> <br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/latest/plugins/b105_hardcoded_password_string.html" target="_blank">https://bandit.readthedocs.io/en/latest/plugins/b105_hardcoded_password_string.html</a><br>
+
+<div class="code">
+<pre>
+407	
+408	        user[&#x27;password&#x27;] = u&#x27;fäképass2&#x27;
+409	        PROVIDERS.identity_api.update_user(user[&#x27;id&#x27;], user)
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-34">
+<div class="issue-block issue-sev-low">
+    <b>hardcoded_password_funcarg: </b> Possible hardcoded password: 'demo'<br>
+    <b>Test ID:</b> B106<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>MEDIUM<br>
+    <b>File: </b><a href="keystone/keystone/tests/unit/test_backend_ldap.py" target="_blank">keystone/keystone/tests/unit/test_backend_ldap.py</a> <br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/latest/plugins/b106_hardcoded_password_funcarg.html" target="_blank">https://bandit.readthedocs.io/en/latest/plugins/b106_hardcoded_password_funcarg.html</a><br>
+
+<div class="code">
+<pre>
+1139	    def test_authenticate_wrong_credentials(self):
+1140	        self.assertRaises(exception.LDAPInvalidCredentialsError,
+1141	                          PROVIDERS.identity_api.driver.user.get_connection,
+1142	                          user=&#x27;demo&#x27;,
+1143	                          password=&#x27;demo&#x27;,
+1144	                          end_user_auth=True)
+1145	
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-35">
+<div class="issue-block issue-sev-low">
+    <b>hardcoded_password_funcarg: </b> Possible hardcoded password: 'extra'<br>
+    <b>Test ID:</b> B106<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>MEDIUM<br>
+    <b>File: </b><a href="keystone/keystone/tests/unit/test_backend_ldap.py" target="_blank">keystone/keystone/tests/unit/test_backend_ldap.py</a> <br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/latest/plugins/b106_hardcoded_password_funcarg.html" target="_blank">https://bandit.readthedocs.io/en/latest/plugins/b106_hardcoded_password_funcarg.html</a><br>
+
+<div class="code">
+<pre>
+1478	        self.load_backends()
+1479	        user = self.new_user_ref(name=&#x27;EXTRA_ATTRIBUTES&#x27;,
+1480	                                 password=&#x27;extra&#x27;,
+1481	                                 domain_id=CONF.identity.default_domain_id)
+1482	        user = PROVIDERS.identity_api.create_user(user)
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-36">
+<div class="issue-block issue-sev-low">
+    <b>hardcoded_password_string: </b> Possible hardcoded password: 'new_password'<br>
+    <b>Test ID:</b> B105<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>MEDIUM<br>
+    <b>File: </b><a href="keystone/keystone/tests/unit/test_backend_ldap_pool.py" target="_blank">keystone/keystone/tests/unit/test_backend_ldap_pool.py</a> <br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/latest/plugins/b105_hardcoded_password_string.html" target="_blank">https://bandit.readthedocs.io/en/latest/plugins/b105_hardcoded_password_string.html</a><br>
+
+<div class="code">
+<pre>
+188	
+189	        new_password = &#x27;new_password&#x27;
+190	        user_ref[&#x27;password&#x27;] = new_password
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-37">
+<div class="issue-block issue-sev-low">
+    <b>hardcoded_password_funcarg: </b> Possible hardcoded password: '^^(??=.*\d)$'<br>
+    <b>Test ID:</b> B106<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>MEDIUM<br>
+    <b>File: </b><a href="keystone/keystone/tests/unit/test_cli.py" target="_blank">keystone/keystone/tests/unit/test_cli.py</a> <br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/latest/plugins/b106_hardcoded_password_funcarg.html" target="_blank">https://bandit.readthedocs.io/en/latest/plugins/b106_hardcoded_password_funcarg.html</a><br>
+
+<div class="code">
+<pre>
+1370	        # Symptom Detected: Regular expression is invalid
+1371	        self.config_fixture.config(
+1372	            group=&#x27;security_compliance&#x27;,
+1373	            password_regex=r&#x27;^^(??=.*\d)$&#x27;)
+1374	        self.assertTrue(
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-38">
+<div class="issue-block issue-sev-low">
+    <b>hardcoded_password_funcarg: </b> Possible hardcoded password: '^(?=.*\d)(?=.*[a-zA-Z]).{7,}$'<br>
+    <b>Test ID:</b> B106<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>MEDIUM<br>
+    <b>File: </b><a href="keystone/keystone/tests/unit/test_cli.py" target="_blank">keystone/keystone/tests/unit/test_cli.py</a> <br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/latest/plugins/b106_hardcoded_password_funcarg.html" target="_blank">https://bandit.readthedocs.io/en/latest/plugins/b106_hardcoded_password_funcarg.html</a><br>
+
+<div class="code">
+<pre>
+1378	        # No Symptom Detected: Regular expression is valid
+1379	        self.config_fixture.config(
+1380	            group=&#x27;security_compliance&#x27;,
+1381	            password_regex=r&#x27;^(?=.*\d)(?=.*[a-zA-Z]).{7,}$&#x27;)
+1382	        self.assertFalse(
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-39">
+<div class="issue-block issue-sev-low">
+    <b>hardcoded_password_funcarg: </b> Possible hardcoded password: '^(?=.*\d)(?=.*[a-zA-Z]).{7,}$'<br>
+    <b>Test ID:</b> B106<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>MEDIUM<br>
+    <b>File: </b><a href="keystone/keystone/tests/unit/test_cli.py" target="_blank">keystone/keystone/tests/unit/test_cli.py</a> <br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/latest/plugins/b106_hardcoded_password_funcarg.html" target="_blank">https://bandit.readthedocs.io/en/latest/plugins/b106_hardcoded_password_funcarg.html</a><br>
+
+<div class="code">
+<pre>
+1394	        # Symptom Detected: Regular expression is set but description is not
+1395	        self.config_fixture.config(
+1396	            group=&#x27;security_compliance&#x27;,
+1397	            password_regex=r&#x27;^(?=.*\d)(?=.*[a-zA-Z]).{7,}$&#x27;)
+1398	        self.config_fixture.config(
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-40">
+<div class="issue-block issue-sev-low">
+    <b>hardcoded_password_funcarg: </b> Possible hardcoded password: '^(?=.*\d)(?=.*[a-zA-Z]).{7,}$'<br>
+    <b>Test ID:</b> B106<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>MEDIUM<br>
+    <b>File: </b><a href="keystone/keystone/tests/unit/test_cli.py" target="_blank">keystone/keystone/tests/unit/test_cli.py</a> <br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/latest/plugins/b106_hardcoded_password_funcarg.html" target="_blank">https://bandit.readthedocs.io/en/latest/plugins/b106_hardcoded_password_funcarg.html</a><br>
+
+<div class="code">
+<pre>
+1407	        desc = &#x27;1 letter, 1 digit, and a minimum length of 7 is required&#x27;
+1408	        self.config_fixture.config(
+1409	            group=&#x27;security_compliance&#x27;,
+1410	            password_regex=r&#x27;^(?=.*\d)(?=.*[a-zA-Z]).{7,}$&#x27;)
+1411	        self.config_fixture.config(
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-41">
+<div class="issue-block issue-sev-low">
+    <b>blacklist: </b> Consider possible security implications associated with subprocess module.<br>
+    <b>Test ID:</b> B404<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>HIGH<br>
+    <b>File: </b><a href="keystone/keystone/tests/unit/test_ldap_livetest.py" target="_blank">keystone/keystone/tests/unit/test_ldap_livetest.py</a> <br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/latest/blacklists/blacklist_imports.html#b404-import-subprocess" target="_blank">https://bandit.readthedocs.io/en/latest/blacklists/blacklist_imports.html#b404-import-subprocess</a><br>
+
+<div class="code">
+<pre>
+14	
+15	import subprocess
+16	
+17	import ldap.modlist
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-42">
+<div class="issue-block issue-sev-low">
+    <b>start_process_with_partial_path: </b> Starting a process with a partial executable path<br>
+    <b>Test ID:</b> B607<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>HIGH<br>
+    <b>File: </b><a href="keystone/keystone/tests/unit/test_ldap_livetest.py" target="_blank">keystone/keystone/tests/unit/test_ldap_livetest.py</a> <br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/latest/plugins/b607_start_process_with_partial_path.html" target="_blank">https://bandit.readthedocs.io/en/latest/plugins/b607_start_process_with_partial_path.html</a><br>
+
+<div class="code">
+<pre>
+49	        devnull = open(&#x27;/dev/null&#x27;, &#x27;w&#x27;)
+50	        subprocess.call([&#x27;ldapdelete&#x27;,
+51	                         &#x27;-x&#x27;,
+52	                         &#x27;-D&#x27;, CONF.ldap.user,
+53	                         &#x27;-H&#x27;, CONF.ldap.url,
+54	                         &#x27;-w&#x27;, CONF.ldap.password,
+55	                         &#x27;-r&#x27;, CONF.ldap.suffix],
+56	                        stderr=devnull)
+57	
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-43">
+<div class="issue-block issue-sev-low">
+    <b>subprocess_without_shell_equals_true: </b> subprocess call - check for execution of untrusted input.<br>
+    <b>Test ID:</b> B603<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>HIGH<br>
+    <b>File: </b><a href="keystone/keystone/tests/unit/test_ldap_livetest.py" target="_blank">keystone/keystone/tests/unit/test_ldap_livetest.py</a> <br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/latest/plugins/b603_subprocess_without_shell_equals_true.html" target="_blank">https://bandit.readthedocs.io/en/latest/plugins/b603_subprocess_without_shell_equals_true.html</a><br>
+
+<div class="code">
+<pre>
+49	        devnull = open(&#x27;/dev/null&#x27;, &#x27;w&#x27;)
+50	        subprocess.call([&#x27;ldapdelete&#x27;,
+51	                         &#x27;-x&#x27;,
+52	                         &#x27;-D&#x27;, CONF.ldap.user,
+53	                         &#x27;-H&#x27;, CONF.ldap.url,
+54	                         &#x27;-w&#x27;, CONF.ldap.password,
+55	                         &#x27;-r&#x27;, CONF.ldap.suffix],
+56	                        stderr=devnull)
+57	
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-44">
+<div class="issue-block issue-sev-low">
+    <b>hardcoded_password_string: </b> Possible hardcoded password: 'my_password'<br>
+    <b>Test ID:</b> B105<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>MEDIUM<br>
+    <b>File: </b><a href="keystone/keystone/tests/unit/test_ldap_pool_livetest.py" target="_blank">keystone/keystone/tests/unit/test_ldap_pool_livetest.py</a> <br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/latest/plugins/b105_hardcoded_password_string.html" target="_blank">https://bandit.readthedocs.io/en/latest/plugins/b105_hardcoded_password_string.html</a><br>
+
+<div class="code">
+<pre>
+171	                                   auth_pool_connection_lifetime=600)
+172	        old_password = &#x27;my_password&#x27;
+173	        new_password = &#x27;new_password&#x27;
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-45">
+<div class="issue-block issue-sev-low">
+    <b>hardcoded_password_string: </b> Possible hardcoded password: 'new_password'<br>
+    <b>Test ID:</b> B105<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>MEDIUM<br>
+    <b>File: </b><a href="keystone/keystone/tests/unit/test_ldap_pool_livetest.py" target="_blank">keystone/keystone/tests/unit/test_ldap_pool_livetest.py</a> <br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/latest/plugins/b105_hardcoded_password_string.html" target="_blank">https://bandit.readthedocs.io/en/latest/plugins/b105_hardcoded_password_string.html</a><br>
+
+<div class="code">
+<pre>
+172	        old_password = &#x27;my_password&#x27;
+173	        new_password = &#x27;new_password&#x27;
+174	        user = self._do_password_change_for_one_user(old_password,
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-46">
+<div class="issue-block issue-sev-low">
+    <b>hardcoded_password_string: </b> Possible hardcoded password: 'my_password'<br>
+    <b>Test ID:</b> B105<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>MEDIUM<br>
+    <b>File: </b><a href="keystone/keystone/tests/unit/test_ldap_pool_livetest.py" target="_blank">keystone/keystone/tests/unit/test_ldap_pool_livetest.py</a> <br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/latest/plugins/b105_hardcoded_password_string.html" target="_blank">https://bandit.readthedocs.io/en/latest/plugins/b105_hardcoded_password_string.html</a><br>
+
+<div class="code">
+<pre>
+191	
+192	        old_password = &#x27;my_password&#x27;
+193	        new_password = &#x27;new_password&#x27;
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-47">
+<div class="issue-block issue-sev-low">
+    <b>hardcoded_password_string: </b> Possible hardcoded password: 'new_password'<br>
+    <b>Test ID:</b> B105<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>MEDIUM<br>
+    <b>File: </b><a href="keystone/keystone/tests/unit/test_ldap_pool_livetest.py" target="_blank">keystone/keystone/tests/unit/test_ldap_pool_livetest.py</a> <br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/latest/plugins/b105_hardcoded_password_string.html" target="_blank">https://bandit.readthedocs.io/en/latest/plugins/b105_hardcoded_password_string.html</a><br>
+
+<div class="code">
+<pre>
+192	        old_password = &#x27;my_password&#x27;
+193	        new_password = &#x27;new_password&#x27;
+194	        user = self._do_password_change_for_one_user(old_password,
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-48">
+<div class="issue-block issue-sev-low">
+    <b>hardcoded_password_funcarg: </b> Possible hardcoded password: 'fakepass1'<br>
+    <b>Test ID:</b> B106<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>MEDIUM<br>
+    <b>File: </b><a href="keystone/keystone/tests/unit/test_ldap_tls_livetest.py" target="_blank">keystone/keystone/tests/unit/test_ldap_tls_livetest.py</a> <br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/latest/plugins/b106_hardcoded_password_funcarg.html" target="_blank">https://bandit.readthedocs.io/en/latest/plugins/b106_hardcoded_password_funcarg.html</a><br>
+
+<div class="code">
+<pre>
+54	
+55	        user = unit.create_user(PROVIDERS.identity_api, &#x27;default&#x27;,
+56	                                name=&#x27;fake1&#x27;, password=&#x27;fakepass1&#x27;)
+57	        user_ref = PROVIDERS.identity_api.get_user(user[&#x27;id&#x27;])
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-49">
+<div class="issue-block issue-sev-low">
+    <b>hardcoded_password_string: </b> Possible hardcoded password: 'fakepass2'<br>
+    <b>Test ID:</b> B105<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>MEDIUM<br>
+    <b>File: </b><a href="keystone/keystone/tests/unit/test_ldap_tls_livetest.py" target="_blank">keystone/keystone/tests/unit/test_ldap_tls_livetest.py</a> <br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/latest/plugins/b105_hardcoded_password_string.html" target="_blank">https://bandit.readthedocs.io/en/latest/plugins/b105_hardcoded_password_string.html</a><br>
+
+<div class="code">
+<pre>
+59	
+60	        user[&#x27;password&#x27;] = &#x27;fakepass2&#x27;
+61	        PROVIDERS.identity_api.update_user(user[&#x27;id&#x27;], user)
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-50">
+<div class="issue-block issue-sev-low">
+    <b>hardcoded_password_funcarg: </b> Possible hardcoded password: 'fakepass1'<br>
+    <b>Test ID:</b> B106<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>MEDIUM<br>
+    <b>File: </b><a href="keystone/keystone/tests/unit/test_ldap_tls_livetest.py" target="_blank">keystone/keystone/tests/unit/test_ldap_tls_livetest.py</a> <br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/latest/plugins/b106_hardcoded_password_funcarg.html" target="_blank">https://bandit.readthedocs.io/en/latest/plugins/b106_hardcoded_password_funcarg.html</a><br>
+
+<div class="code">
+<pre>
+76	
+77	        user = unit.create_user(PROVIDERS.identity_api, &#x27;default&#x27;,
+78	                                id=&#x27;fake1&#x27;, name=&#x27;fake1&#x27;,
+79	                                password=&#x27;fakepass1&#x27;)
+80	        user_ref = PROVIDERS.identity_api.get_user(&#x27;fake1&#x27;)
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-51">
+<div class="issue-block issue-sev-low">
+    <b>hardcoded_password_string: </b> Possible hardcoded password: 'fakepass2'<br>
+    <b>Test ID:</b> B105<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>MEDIUM<br>
+    <b>File: </b><a href="keystone/keystone/tests/unit/test_ldap_tls_livetest.py" target="_blank">keystone/keystone/tests/unit/test_ldap_tls_livetest.py</a> <br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/latest/plugins/b105_hardcoded_password_string.html" target="_blank">https://bandit.readthedocs.io/en/latest/plugins/b105_hardcoded_password_string.html</a><br>
+
+<div class="code">
+<pre>
+82	
+83	        user[&#x27;password&#x27;] = &#x27;fakepass2&#x27;
+84	        PROVIDERS.identity_api.update_user(&#x27;fake1&#x27;, user)
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-52">
+<div class="issue-block issue-sev-low">
+    <b>hardcoded_password_funcarg: </b> Possible hardcoded password: 'ADMIN'<br>
+    <b>Test ID:</b> B106<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>MEDIUM<br>
+    <b>File: </b><a href="keystone/keystone/tests/unit/test_middleware.py" target="_blank">keystone/keystone/tests/unit/test_middleware.py</a> <br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/latest/plugins/b106_hardcoded_password_funcarg.html" target="_blank">https://bandit.readthedocs.io/en/latest/plugins/b106_hardcoded_password_funcarg.html</a><br>
+
+<div class="code">
+<pre>
+720	    def test_admin_token_context(self):
+721	        self.config_fixture.config(admin_token=&#x27;ADMIN&#x27;)
+722	        log_fix = self.useFixture(fixtures.FakeLogger())
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-53">
+<div class="issue-block issue-sev-low">
+    <b>hardcoded_password_funcarg: </b> Possible hardcoded password: 'ADMIN'<br>
+    <b>Test ID:</b> B106<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>MEDIUM<br>
+    <b>File: </b><a href="keystone/keystone/tests/unit/test_middleware.py" target="_blank">keystone/keystone/tests/unit/test_middleware.py</a> <br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/latest/plugins/b106_hardcoded_password_funcarg.html" target="_blank">https://bandit.readthedocs.io/en/latest/plugins/b106_hardcoded_password_funcarg.html</a><br>
+
+<div class="code">
+<pre>
+728	    def test_request_non_admin(self):
+729	        self.config_fixture.config(
+730	            admin_token=&#x27;ADMIN&#x27;)
+731	        log_fix = self.useFixture(fixtures.FakeLogger())
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-54">
+<div class="issue-block issue-sev-low">
+    <b>blacklist: </b> Consider possible security implications associated with subprocess module.<br>
+    <b>Test ID:</b> B404<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>HIGH<br>
+    <b>File: </b><a href="keystone/keystone/tests/unit/test_policy.py" target="_blank">keystone/keystone/tests/unit/test_policy.py</a> <br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/latest/blacklists/blacklist_imports.html#b404-import-subprocess" target="_blank">https://bandit.readthedocs.io/en/latest/blacklists/blacklist_imports.html#b404-import-subprocess</a><br>
+
+<div class="code">
+<pre>
+16	import os
+17	import subprocess
+18	from unittest import mock
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-55">
+<div class="issue-block issue-sev-low">
+    <b>start_process_with_partial_path: </b> Starting a process with a partial executable path<br>
+    <b>Test ID:</b> B607<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>HIGH<br>
+    <b>File: </b><a href="keystone/keystone/tests/unit/test_policy.py" target="_blank">keystone/keystone/tests/unit/test_policy.py</a> <br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/latest/plugins/b607_start_process_with_partial_path.html" target="_blank">https://bandit.readthedocs.io/en/latest/plugins/b607_start_process_with_partial_path.html</a><br>
+
+<div class="code">
+<pre>
+239	        # will fail and prevent users from generating policy files.
+240	        ret_val = subprocess.Popen(
+241	            [&#x27;oslopolicy-policy-generator&#x27;, &#x27;--namespace&#x27;, &#x27;keystone&#x27;],
+242	            stdout=subprocess.PIPE,
+243	            stderr=subprocess.PIPE
+244	        )
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-56">
+<div class="issue-block issue-sev-low">
+    <b>subprocess_without_shell_equals_true: </b> subprocess call - check for execution of untrusted input.<br>
+    <b>Test ID:</b> B603<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>HIGH<br>
+    <b>File: </b><a href="keystone/keystone/tests/unit/test_policy.py" target="_blank">keystone/keystone/tests/unit/test_policy.py</a> <br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/latest/plugins/b603_subprocess_without_shell_equals_true.html" target="_blank">https://bandit.readthedocs.io/en/latest/plugins/b603_subprocess_without_shell_equals_true.html</a><br>
+
+<div class="code">
+<pre>
+239	        # will fail and prevent users from generating policy files.
+240	        ret_val = subprocess.Popen(
+241	            [&#x27;oslopolicy-policy-generator&#x27;, &#x27;--namespace&#x27;, &#x27;keystone&#x27;],
+242	            stdout=subprocess.PIPE,
+243	            stderr=subprocess.PIPE
+244	        )
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-57">
+<div class="issue-block issue-sev-low">
+    <b>hardcoded_password_string: </b> Possible hardcoded password: 'request_token'<br>
+    <b>Test ID:</b> B105<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>MEDIUM<br>
+    <b>File: </b><a href="keystone/keystone/tests/unit/test_sql_upgrade.py" target="_blank">keystone/keystone/tests/unit/test_sql_upgrade.py</a> <br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/latest/plugins/b105_hardcoded_password_string.html" target="_blank">https://bandit.readthedocs.io/en/latest/plugins/b105_hardcoded_password_string.html</a><br>
+
+<div class="code">
+<pre>
+551	        consumer = &#x27;consumer&#x27;
+552	        request_token = &#x27;request_token&#x27;
+553	        access_token = &#x27;access_token&#x27;
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-58">
+<div class="issue-block issue-sev-low">
+    <b>hardcoded_password_string: </b> Possible hardcoded password: 'access_token'<br>
+    <b>Test ID:</b> B105<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>MEDIUM<br>
+    <b>File: </b><a href="keystone/keystone/tests/unit/test_sql_upgrade.py" target="_blank">keystone/keystone/tests/unit/test_sql_upgrade.py</a> <br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/latest/plugins/b105_hardcoded_password_string.html" target="_blank">https://bandit.readthedocs.io/en/latest/plugins/b105_hardcoded_password_string.html</a><br>
+
+<div class="code">
+<pre>
+552	        request_token = &#x27;request_token&#x27;
+553	        access_token = &#x27;access_token&#x27;
+554	        self.assertTableDoesNotExist(consumer)
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-59">
+<div class="issue-block issue-sev-low">
+    <b>hardcoded_password_string: </b> Possible hardcoded password: 'password'<br>
+    <b>Test ID:</b> B105<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>MEDIUM<br>
+    <b>File: </b><a href="keystone/keystone/tests/unit/test_sql_upgrade.py" target="_blank">keystone/keystone/tests/unit/test_sql_upgrade.py</a> <br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/latest/plugins/b105_hardcoded_password_string.html" target="_blank">https://bandit.readthedocs.io/en/latest/plugins/b105_hardcoded_password_string.html</a><br>
+
+<div class="code">
+<pre>
+739	        local_user_table = &#x27;local_user&#x27;
+740	        password_table = &#x27;password&#x27;
+741	        self.upgrade(89)
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-60">
+<div class="issue-block issue-sev-low">
+    <b>hardcoded_password_string: </b> Possible hardcoded password: 'password'<br>
+    <b>Test ID:</b> B105<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>MEDIUM<br>
+    <b>File: </b><a href="keystone/keystone/tests/unit/test_sql_upgrade.py" target="_blank">keystone/keystone/tests/unit/test_sql_upgrade.py</a> <br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/latest/plugins/b105_hardcoded_password_string.html" target="_blank">https://bandit.readthedocs.io/en/latest/plugins/b105_hardcoded_password_string.html</a><br>
+
+<div class="code">
+<pre>
+812	        local_user_table_name = &#x27;local_user&#x27;
+813	        password_table_name = &#x27;password&#x27;
+814	
+815	        # populate current user table
+816	        self.upgrade(90)
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-61">
+<div class="issue-block issue-sev-low">
+    <b>hardcoded_password_string: </b> Possible hardcoded password: 'password'<br>
+    <b>Test ID:</b> B105<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>MEDIUM<br>
+    <b>File: </b><a href="keystone/keystone/tests/unit/test_sql_upgrade.py" target="_blank">keystone/keystone/tests/unit/test_sql_upgrade.py</a> <br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/latest/plugins/b105_hardcoded_password_string.html" target="_blank">https://bandit.readthedocs.io/en/latest/plugins/b105_hardcoded_password_string.html</a><br>
+
+<div class="code">
+<pre>
+838	        LOCAL_USER_TABLE_NAME = &#x27;local_user&#x27;
+839	        PASSWORD_TABLE_NAME = &#x27;password&#x27;
+840	        self.upgrade(90)
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-62">
+<div class="issue-block issue-sev-low">
+    <b>hardcoded_password_string: </b> Possible hardcoded password: 'password'<br>
+    <b>Test ID:</b> B105<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>MEDIUM<br>
+    <b>File: </b><a href="keystone/keystone/tests/unit/test_sql_upgrade.py" target="_blank">keystone/keystone/tests/unit/test_sql_upgrade.py</a> <br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/latest/plugins/b105_hardcoded_password_string.html" target="_blank">https://bandit.readthedocs.io/en/latest/plugins/b105_hardcoded_password_string.html</a><br>
+
+<div class="code">
+<pre>
+1413	        session = self.sessionmaker()
+1414	        password_name = &#x27;password&#x27;
+1415	        # columns before
+1416	        self.assertTableColumns(password_name,
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-63">
+<div class="issue-block issue-sev-low">
+    <b>hardcoded_password_string: </b> Possible hardcoded password: 'password'<br>
+    <b>Test ID:</b> B105<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>MEDIUM<br>
+    <b>File: </b><a href="keystone/keystone/tests/unit/test_sql_upgrade.py" target="_blank">keystone/keystone/tests/unit/test_sql_upgrade.py</a> <br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/latest/plugins/b105_hardcoded_password_string.html" target="_blank">https://bandit.readthedocs.io/en/latest/plugins/b105_hardcoded_password_string.html</a><br>
+
+<div class="code">
+<pre>
+1445	    def test_migration_106_allow_password_column_to_be_nullable(self):
+1446	        password_table_name = &#x27;password&#x27;
+1447	        self.upgrade(105)
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-64">
+<div class="issue-block issue-sev-low">
+    <b>hardcoded_password_string: </b> Possible hardcoded password: 'password'<br>
+    <b>Test ID:</b> B105<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>MEDIUM<br>
+    <b>File: </b><a href="keystone/keystone/tests/unit/test_sql_upgrade.py" target="_blank">keystone/keystone/tests/unit/test_sql_upgrade.py</a> <br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/latest/plugins/b105_hardcoded_password_string.html" target="_blank">https://bandit.readthedocs.io/en/latest/plugins/b105_hardcoded_password_string.html</a><br>
+
+<div class="code">
+<pre>
+1490	    def test_migration_109_add_password_self_service_column(self):
+1491	        password_table = &#x27;password&#x27;
+1492	        self.upgrade(108)
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-65">
+<div class="issue-block issue-sev-low">
+    <b>hardcoded_password_string: </b> Possible hardcoded password: 'password'<br>
+    <b>Test ID:</b> B105<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>MEDIUM<br>
+    <b>File: </b><a href="keystone/keystone/tests/unit/test_sql_upgrade.py" target="_blank">keystone/keystone/tests/unit/test_sql_upgrade.py</a> <br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/latest/plugins/b105_hardcoded_password_string.html" target="_blank">https://bandit.readthedocs.io/en/latest/plugins/b105_hardcoded_password_string.html</a><br>
+
+<div class="code">
+<pre>
+2377	
+2378	        password_table_name = &#x27;password&#x27;
+2379	
+2380	        self.assertTableColumns(
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-66">
+<div class="issue-block issue-sev-low">
+    <b>hardcoded_password_string: </b> Possible hardcoded password: 'password'<br>
+    <b>Test ID:</b> B105<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>MEDIUM<br>
+    <b>File: </b><a href="keystone/keystone/tests/unit/test_sql_upgrade.py" target="_blank">keystone/keystone/tests/unit/test_sql_upgrade.py</a> <br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/latest/plugins/b105_hardcoded_password_string.html" target="_blank">https://bandit.readthedocs.io/en/latest/plugins/b105_hardcoded_password_string.html</a><br>
+
+<div class="code">
+<pre>
+3191	
+3192	        password_table = &#x27;password&#x27;
+3193	        self.assertTableColumns(
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-67">
+<div class="issue-block issue-sev-low">
+    <b>try_except_pass: </b> Try, Except, Pass detected.<br>
+    <b>Test ID:</b> B110<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>HIGH<br>
+    <b>File: </b><a href="keystone/keystone/tests/unit/test_v3.py" target="_blank">keystone/keystone/tests/unit/test_v3.py</a> <br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/latest/plugins/b110_try_except_pass.html" target="_blank">https://bandit.readthedocs.io/en/latest/plugins/b110_try_except_pass.html</a><br>
+
+<div class="code">
+<pre>
+1026	                self.assertValidRole(entity, ref=ref)
+1027	            except Exception:
+1028	                # It doesn&#x27;t match, so let&#x27;s go onto the next one
+1029	                pass
+1030	            else:
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-68">
+<div class="issue-block issue-sev-low">
+    <b>try_except_pass: </b> Try, Except, Pass detected.<br>
+    <b>Test ID:</b> B110<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>HIGH<br>
+    <b>File: </b><a href="keystone/keystone/tests/unit/test_v3.py" target="_blank">keystone/keystone/tests/unit/test_v3.py</a> <br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/latest/plugins/b110_try_except_pass.html" target="_blank">https://bandit.readthedocs.io/en/latest/plugins/b110_try_except_pass.html</a><br>
+
+<div class="code">
+<pre>
+1116	                self.assertValidRoleAssignment(entity, ref=ref)
+1117	            except Exception:
+1118	                # It doesn&#x27;t match, so let&#x27;s go onto the next one
+1119	                pass
+1120	            else:
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-69">
+<div class="issue-block issue-sev-low">
+    <b>hardcoded_password_string: </b> Possible hardcoded password: 'supersecuresecret'<br>
+    <b>Test ID:</b> B105<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>MEDIUM<br>
+    <b>File: </b><a href="keystone/keystone/tests/unit/test_v3_application_credential.py" target="_blank">keystone/keystone/tests/unit/test_v3_application_credential.py</a> <br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/latest/plugins/b105_hardcoded_password_string.html" target="_blank">https://bandit.readthedocs.io/en/latest/plugins/b105_hardcoded_password_string.html</a><br>
+
+<div class="code">
+<pre>
+72	        with self.test_client() as c:
+73	            secret = &#x27;supersecuresecret&#x27;
+74	            roles = [{&#x27;id&#x27;: self.role_id}]
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-70">
+<div class="issue-block issue-sev-low">
+    <b>blacklist: </b> Standard pseudo-random generators are not suitable for security/cryptographic purposes.<br>
+    <b>Test ID:</b> B311<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>HIGH<br>
+    <b>File: </b><a href="keystone/keystone/tests/unit/test_v3_assignment.py" target="_blank">keystone/keystone/tests/unit/test_v3_assignment.py</a> <br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/latest/blacklists/blacklist_calls.html#b311-random" target="_blank">https://bandit.readthedocs.io/en/latest/blacklists/blacklist_calls.html#b311-random</a><br>
+
+<div class="code">
+<pre>
+1214	
+1215	            breadth = random.randint(1, self.MAX_HIERARCHY_BREADTH)
+1216	
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-71">
+<div class="issue-block issue-sev-low">
+    <b>blacklist: </b> Standard pseudo-random generators are not suitable for security/cryptographic purposes.<br>
+    <b>Test ID:</b> B311<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>HIGH<br>
+    <b>File: </b><a href="keystone/keystone/tests/unit/test_v3_assignment.py" target="_blank">keystone/keystone/tests/unit/test_v3_assignment.py</a> <br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/latest/blacklists/blacklist_calls.html#b311-random" target="_blank">https://bandit.readthedocs.io/en/latest/blacklists/blacklist_calls.html#b311-random</a><br>
+
+<div class="code">
+<pre>
+1224	
+1225	            new_parent = subprojects[random.randint(0, breadth - 1)]
+1226	            create_project_hierarchy(new_parent[&#x27;id&#x27;], depth - 1)
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-72">
+<div class="issue-block issue-sev-low">
+    <b>blacklist: </b> Standard pseudo-random generators are not suitable for security/cryptographic purposes.<br>
+    <b>Test ID:</b> B311<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>HIGH<br>
+    <b>File: </b><a href="keystone/keystone/tests/unit/test_v3_assignment.py" target="_blank">keystone/keystone/tests/unit/test_v3_assignment.py</a> <br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/latest/blacklists/blacklist_calls.html#b311-random" target="_blank">https://bandit.readthedocs.io/en/latest/blacklists/blacklist_calls.html#b311-random</a><br>
+
+<div class="code">
+<pre>
+1241	        create_project_hierarchy(self.project_id,
+1242	                                 random.randint(1, self.MAX_HIERARCHY_DEPTH))
+1243	
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-73">
+<div class="issue-block issue-sev-low">
+    <b>hardcoded_password_funcarg: </b> Possible hardcoded password: 'test'<br>
+    <b>Test ID:</b> B106<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>MEDIUM<br>
+    <b>File: </b><a href="keystone/keystone/tests/unit/test_v3_auth.py" target="_blank">keystone/keystone/tests/unit/test_v3_auth.py</a> <br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/latest/plugins/b106_hardcoded_password_funcarg.html" target="_blank">https://bandit.readthedocs.io/en/latest/plugins/b106_hardcoded_password_funcarg.html</a><br>
+
+<div class="code">
+<pre>
+485	    def test_project_name_no_domain(self):
+486	        auth_data = self.build_authentication_request(
+487	            username=&#x27;test&#x27;,
+488	            password=&#x27;test&#x27;,
+489	            project_name=&#x27;abc&#x27;)[&#x27;auth&#x27;]
+490	        self.assertRaises(exception.ValidationError,
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-74">
+<div class="issue-block issue-sev-low">
+    <b>hardcoded_password_funcarg: </b> Possible hardcoded password: 'test'<br>
+    <b>Test ID:</b> B106<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>MEDIUM<br>
+    <b>File: </b><a href="keystone/keystone/tests/unit/test_v3_auth.py" target="_blank">keystone/keystone/tests/unit/test_v3_auth.py</a> <br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/latest/plugins/b106_hardcoded_password_funcarg.html" target="_blank">https://bandit.readthedocs.io/en/latest/plugins/b106_hardcoded_password_funcarg.html</a><br>
+
+<div class="code">
+<pre>
+494	    def test_both_project_and_domain_in_scope(self):
+495	        auth_data = self.build_authentication_request(
+496	            user_id=&#x27;test&#x27;,
+497	            password=&#x27;test&#x27;,
+498	            project_name=&#x27;test&#x27;,
+499	            domain_name=&#x27;test&#x27;)[&#x27;auth&#x27;]
+500	        self.assertRaises(exception.ValidationError,
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-75">
+<div class="issue-block issue-sev-low">
+    <b>hardcoded_password_funcarg: </b> Possible hardcoded password: 'test'<br>
+    <b>Test ID:</b> B106<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>MEDIUM<br>
+    <b>File: </b><a href="keystone/keystone/tests/unit/test_v3_auth.py" target="_blank">keystone/keystone/tests/unit/test_v3_auth.py</a> <br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/latest/plugins/b106_hardcoded_password_funcarg.html" target="_blank">https://bandit.readthedocs.io/en/latest/plugins/b106_hardcoded_password_funcarg.html</a><br>
+
+<div class="code">
+<pre>
+504	    def test_get_method_names_duplicates(self):
+505	        auth_data = self.build_authentication_request(
+506	            token=&#x27;test&#x27;,
+507	            user_id=&#x27;test&#x27;,
+508	            password=&#x27;test&#x27;)[&#x27;auth&#x27;]
+509	        auth_data[&#x27;identity&#x27;][&#x27;methods&#x27;] = [&#x27;password&#x27;, &#x27;token&#x27;,
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-76">
+<div class="issue-block issue-sev-low">
+    <b>hardcoded_password_funcarg: </b> Possible hardcoded password: 'test'<br>
+    <b>Test ID:</b> B106<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>MEDIUM<br>
+    <b>File: </b><a href="keystone/keystone/tests/unit/test_v3_auth.py" target="_blank">keystone/keystone/tests/unit/test_v3_auth.py</a> <br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/latest/plugins/b106_hardcoded_password_funcarg.html" target="_blank">https://bandit.readthedocs.io/en/latest/plugins/b106_hardcoded_password_funcarg.html</a><br>
+
+<div class="code">
+<pre>
+515	    def test_get_method_data_invalid_method(self):
+516	        auth_data = self.build_authentication_request(
+517	            user_id=&#x27;test&#x27;,
+518	            password=&#x27;test&#x27;)[&#x27;auth&#x27;]
+519	        auth_info = auth.core.AuthInfo.create(auth_data)
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-77">
+<div class="issue-block issue-sev-low">
+    <b>hardcoded_password_funcarg: </b> Possible hardcoded password: 'password'<br>
+    <b>Test ID:</b> B106<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>MEDIUM<br>
+    <b>File: </b><a href="keystone/keystone/tests/unit/test_v3_auth.py" target="_blank">keystone/keystone/tests/unit/test_v3_auth.py</a> <br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/latest/plugins/b106_hardcoded_password_funcarg.html" target="_blank">https://bandit.readthedocs.io/en/latest/plugins/b106_hardcoded_password_funcarg.html</a><br>
+
+<div class="code">
+<pre>
+657	
+658	        auth_data = self.build_authentication_request(
+659	            user_id=user[&#x27;id&#x27;],
+660	            password=&#x27;password&#x27;)
+661	
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-78">
+<div class="issue-block issue-sev-low">
+    <b>hardcoded_password_string: </b> Possible hardcoded password: 'Password1'<br>
+    <b>Test ID:</b> B105<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>MEDIUM<br>
+    <b>File: </b><a href="keystone/keystone/tests/unit/test_v3_auth.py" target="_blank">keystone/keystone/tests/unit/test_v3_auth.py</a> <br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/latest/plugins/b105_hardcoded_password_string.html" target="_blank">https://bandit.readthedocs.io/en/latest/plugins/b105_hardcoded_password_string.html</a><br>
+
+<div class="code">
+<pre>
+833	        # Change user&#x27;s password
+834	        self.user[&#x27;password&#x27;] = &#x27;Password1&#x27;
+835	        PROVIDERS.identity_api.update_user(self.user[&#x27;id&#x27;], self.user)
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-79">
+<div class="issue-block issue-sev-low">
+    <b>hardcoded_password_string: </b> Possible hardcoded password: 'Password1'<br>
+    <b>Test ID:</b> B105<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>MEDIUM<br>
+    <b>File: </b><a href="keystone/keystone/tests/unit/test_v3_auth.py" target="_blank">keystone/keystone/tests/unit/test_v3_auth.py</a> <br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/latest/plugins/b105_hardcoded_password_string.html" target="_blank">https://bandit.readthedocs.io/en/latest/plugins/b105_hardcoded_password_string.html</a><br>
+
+<div class="code">
+<pre>
+1658	        # Update user&#x27;s password
+1659	        self.user[&#x27;password&#x27;] = &#x27;Password1&#x27;
+1660	        PROVIDERS.identity_api.update_user(self.user[&#x27;id&#x27;], self.user)
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-80">
+<div class="issue-block issue-sev-low">
+    <b>hardcoded_password_funcarg: </b> Possible hardcoded password: 'Password1'<br>
+    <b>Test ID:</b> B106<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>MEDIUM<br>
+    <b>File: </b><a href="keystone/keystone/tests/unit/test_v3_auth.py" target="_blank">keystone/keystone/tests/unit/test_v3_auth.py</a> <br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/latest/plugins/b106_hardcoded_password_funcarg.html" target="_blank">https://bandit.readthedocs.io/en/latest/plugins/b106_hardcoded_password_funcarg.html</a><br>
+
+<div class="code">
+<pre>
+1839	        # Change trustee&#x27;s password
+1840	        trustee_update_ref = dict(password=&#x27;Password1&#x27;)
+1841	        PROVIDERS.identity_api.update_user(
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-81">
+<div class="issue-block issue-sev-low">
+    <b>hardcoded_password_funcarg: </b> Possible hardcoded password: 'Password1'<br>
+    <b>Test ID:</b> B106<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>MEDIUM<br>
+    <b>File: </b><a href="keystone/keystone/tests/unit/test_v3_auth.py" target="_blank">keystone/keystone/tests/unit/test_v3_auth.py</a> <br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/latest/plugins/b106_hardcoded_password_funcarg.html" target="_blank">https://bandit.readthedocs.io/en/latest/plugins/b106_hardcoded_password_funcarg.html</a><br>
+
+<div class="code">
+<pre>
+1873	        # Change trustor&#x27;s password
+1874	        trustor_update_ref = dict(password=&#x27;Password1&#x27;)
+1875	        PROVIDERS.identity_api.update_user(self.user[&#x27;id&#x27;], trustor_update_ref)
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-82">
+<div class="issue-block issue-sev-low">
+    <b>hardcoded_password_funcarg: </b> Possible hardcoded password: 'Password1'<br>
+    <b>Test ID:</b> B106<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>MEDIUM<br>
+    <b>File: </b><a href="keystone/keystone/tests/unit/test_v3_auth.py" target="_blank">keystone/keystone/tests/unit/test_v3_auth.py</a> <br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/latest/plugins/b106_hardcoded_password_funcarg.html" target="_blank">https://bandit.readthedocs.io/en/latest/plugins/b106_hardcoded_password_funcarg.html</a><br>
+
+<div class="code">
+<pre>
+1892	
+1893	        trustor_update_ref = dict(password=&#x27;Password1&#x27;)
+1894	        PROVIDERS.identity_api.update_user(self.user[&#x27;id&#x27;], trustor_update_ref)
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-83">
+<div class="issue-block issue-sev-low">
+    <b>hardcoded_password_funcarg: </b> Possible hardcoded password: 'badpassword'<br>
+    <b>Test ID:</b> B106<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>MEDIUM<br>
+    <b>File: </b><a href="keystone/keystone/tests/unit/test_v3_auth.py" target="_blank">keystone/keystone/tests/unit/test_v3_auth.py</a> <br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/latest/plugins/b106_hardcoded_password_funcarg.html" target="_blank">https://bandit.readthedocs.io/en/latest/plugins/b106_hardcoded_password_funcarg.html</a><br>
+
+<div class="code">
+<pre>
+2580	        app = self.loadapp()
+2581	        auth_data = self.build_authentication_request(
+2582	            user_domain_id=self.domain[&#x27;id&#x27;],
+2583	            username=self.user[&#x27;name&#x27;],
+2584	            password=&#x27;badpassword&#x27;)
+2585	        with app.test_client() as c:
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-84">
+<div class="issue-block issue-sev-low">
+    <b>hardcoded_password_funcarg: </b> Possible hardcoded password: 'badsecret'<br>
+    <b>Test ID:</b> B106<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>MEDIUM<br>
+    <b>File: </b><a href="keystone/keystone/tests/unit/test_v3_auth.py" target="_blank">keystone/keystone/tests/unit/test_v3_auth.py</a> <br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/latest/plugins/b106_hardcoded_password_funcarg.html" target="_blank">https://bandit.readthedocs.io/en/latest/plugins/b106_hardcoded_password_funcarg.html</a><br>
+
+<div class="code">
+<pre>
+5553	            app_cred)
+5554	        auth_data = self.build_authentication_request(
+5555	            app_cred_id=app_cred_ref[&#x27;id&#x27;], secret=&#x27;badsecret&#x27;)
+5556	        self.v3_create_token(auth_data,
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-85">
+<div class="issue-block issue-sev-low">
+    <b>blacklist: </b> Consider possible security implications associated with subprocess module.<br>
+    <b>Test ID:</b> B404<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>HIGH<br>
+    <b>File: </b><a href="keystone/keystone/tests/unit/test_v3_federation.py" target="_blank">keystone/keystone/tests/unit/test_v3_federation.py</a> <br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/latest/blacklists/blacklist_imports.html#b404-import-subprocess" target="_blank">https://bandit.readthedocs.io/en/latest/blacklists/blacklist_imports.html#b404-import-subprocess</a><br>
+
+<div class="code">
+<pre>
+16	import re
+17	import subprocess
+18	from testtools import matchers
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-86">
+<div class="issue-block issue-sev-low">
+    <b>blacklist: </b> Using etree to parse untrusted XML data is known to be vulnerable to XML attacks. Replace etree with the equivalent defusedxml package.<br>
+    <b>Test ID:</b> B410<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>HIGH<br>
+    <b>File: </b><a href="keystone/keystone/tests/unit/test_v3_federation.py" target="_blank">keystone/keystone/tests/unit/test_v3_federation.py</a> <br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/latest/blacklists/blacklist_imports.html#b410-import-lxml" target="_blank">https://bandit.readthedocs.io/en/latest/blacklists/blacklist_imports.html#b410-import-lxml</a><br>
+
+<div class="code">
+<pre>
+24	import http.client
+25	from lxml import etree
+26	from oslo_serialization import jsonutils
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-87">
+<div class="issue-block issue-sev-low">
+    <b>blacklist: </b> Standard pseudo-random generators are not suitable for security/cryptographic purposes.<br>
+    <b>Test ID:</b> B311<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>HIGH<br>
+    <b>File: </b><a href="keystone/keystone/tests/unit/test_v3_federation.py" target="_blank">keystone/keystone/tests/unit/test_v3_federation.py</a> <br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/latest/blacklists/blacklist_calls.html#b311-random" target="_blank">https://bandit.readthedocs.io/en/latest/blacklists/blacklist_calls.html#b311-random</a><br>
+
+<div class="code">
+<pre>
+1654	            expected_status=http.client.CREATED)
+1655	        iterations = random.randint(0, 16)
+1656	        protocol_ids = []
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-88">
+<div class="issue-block issue-sev-low">
+    <b>blacklist: </b> Standard pseudo-random generators are not suitable for security/cryptographic purposes.<br>
+    <b>Test ID:</b> B311<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>HIGH<br>
+    <b>File: </b><a href="keystone/keystone/tests/unit/test_v3_federation.py" target="_blank">keystone/keystone/tests/unit/test_v3_federation.py</a> <br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/latest/blacklists/blacklist_calls.html#b311-random" target="_blank">https://bandit.readthedocs.io/en/latest/blacklists/blacklist_calls.html#b311-random</a><br>
+
+<div class="code">
+<pre>
+2531	        projects = r.result[&#x27;projects&#x27;]
+2532	        random_project = random.randint(0, len(projects) - 1)
+2533	        project = projects[random_project]
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-89">
+<div class="issue-block issue-sev-low">
+    <b>blacklist: </b> Standard pseudo-random generators are not suitable for security/cryptographic purposes.<br>
+    <b>Test ID:</b> B311<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>HIGH<br>
+    <b>File: </b><a href="keystone/keystone/tests/unit/test_v3_federation.py" target="_blank">keystone/keystone/tests/unit/test_v3_federation.py</a> <br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/latest/blacklists/blacklist_calls.html#b311-random" target="_blank">https://bandit.readthedocs.io/en/latest/blacklists/blacklist_calls.html#b311-random</a><br>
+
+<div class="code">
+<pre>
+3093	        projects = resp.result[&#x27;projects&#x27;]
+3094	        random_project = random.randint(0, len(projects) - 1)
+3095	        project = projects[random_project]
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-90">
+<div class="issue-block issue-sev-low">
+    <b>blacklist: </b> Standard pseudo-random generators are not suitable for security/cryptographic purposes.<br>
+    <b>Test ID:</b> B311<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>HIGH<br>
+    <b>File: </b><a href="keystone/keystone/tests/unit/test_v3_federation.py" target="_blank">keystone/keystone/tests/unit/test_v3_federation.py</a> <br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/latest/blacklists/blacklist_calls.html#b311-random" target="_blank">https://bandit.readthedocs.io/en/latest/blacklists/blacklist_calls.html#b311-random</a><br>
+
+<div class="code">
+<pre>
+3155	        projects = resp.result[&#x27;projects&#x27;]
+3156	        random_project = random.randint(0, len(projects) - 1)
+3157	        project = projects[random_project]
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-91">
+<div class="issue-block issue-sev-low">
+    <b>blacklist: </b> Standard pseudo-random generators are not suitable for security/cryptographic purposes.<br>
+    <b>Test ID:</b> B311<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>HIGH<br>
+    <b>File: </b><a href="keystone/keystone/tests/unit/test_v3_federation.py" target="_blank">keystone/keystone/tests/unit/test_v3_federation.py</a> <br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/latest/blacklists/blacklist_calls.html#b311-random" target="_blank">https://bandit.readthedocs.io/en/latest/blacklists/blacklist_calls.html#b311-random</a><br>
+
+<div class="code">
+<pre>
+3197	        projects = r.result[&#x27;projects&#x27;]
+3198	        random_project = random.randint(0, len(projects) - 1)
+3199	        project = projects[random_project]
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-92">
+<div class="issue-block issue-sev-low">
+    <b>assert_used: </b> Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.<br>
+    <b>Test ID:</b> B101<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>HIGH<br>
+    <b>File: </b><a href="keystone/keystone/tests/unit/test_v3_federation.py" target="_blank">keystone/keystone/tests/unit/test_v3_federation.py</a> <br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/latest/plugins/b101_assert_used.html" target="_blank">https://bandit.readthedocs.io/en/latest/plugins/b101_assert_used.html</a><br>
+
+<div class="code">
+<pre>
+3568	        member_role_ref = unit.new_role_ref(name=&#x27;member&#x27;)
+3569	        assert member_role_ref[&#x27;domain_id&#x27;] is None
+3570	        self.member_role = PROVIDERS.role_api.create_role(
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-93">
+<div class="issue-block issue-sev-low">
+    <b>assert_used: </b> Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.<br>
+    <b>Test ID:</b> B101<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>HIGH<br>
+    <b>File: </b><a href="keystone/keystone/tests/unit/test_v3_federation.py" target="_blank">keystone/keystone/tests/unit/test_v3_federation.py</a> <br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/latest/plugins/b101_assert_used.html" target="_blank">https://bandit.readthedocs.io/en/latest/plugins/b101_assert_used.html</a><br>
+
+<div class="code">
+<pre>
+3573	        observer_role_ref = unit.new_role_ref(name=&#x27;observer&#x27;)
+3574	        assert observer_role_ref[&#x27;domain_id&#x27;] is None
+3575	        self.observer_role = PROVIDERS.role_api.create_role(
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-94">
+<div class="issue-block issue-sev-low">
+    <b>start_process_with_partial_path: </b> Starting a process with a partial executable path<br>
+    <b>Test ID:</b> B607<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>HIGH<br>
+    <b>File: </b><a href="keystone/keystone/tests/unit/test_v3_federation.py" target="_blank">keystone/keystone/tests/unit/test_v3_federation.py</a> <br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/latest/plugins/b607_start_process_with_partial_path.html" target="_blank">https://bandit.readthedocs.io/en/latest/plugins/b607_start_process_with_partial_path.html</a><br>
+
+<div class="code">
+<pre>
+3827	def _is_xmlsec1_installed():
+3828	    p = subprocess.Popen(
+3829	        [&#x27;which&#x27;, &#x27;xmlsec1&#x27;],
+3830	        stdout=subprocess.PIPE,
+3831	        stderr=subprocess.PIPE)
+3832	
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-95">
+<div class="issue-block issue-sev-low">
+    <b>subprocess_without_shell_equals_true: </b> subprocess call - check for execution of untrusted input.<br>
+    <b>Test ID:</b> B603<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>HIGH<br>
+    <b>File: </b><a href="keystone/keystone/tests/unit/test_v3_federation.py" target="_blank">keystone/keystone/tests/unit/test_v3_federation.py</a> <br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/latest/plugins/b603_subprocess_without_shell_equals_true.html" target="_blank">https://bandit.readthedocs.io/en/latest/plugins/b603_subprocess_without_shell_equals_true.html</a><br>
+
+<div class="code">
+<pre>
+3827	def _is_xmlsec1_installed():
+3828	    p = subprocess.Popen(
+3829	        [&#x27;which&#x27;, &#x27;xmlsec1&#x27;],
+3830	        stdout=subprocess.PIPE,
+3831	        stderr=subprocess.PIPE)
+3832	
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-96">
+<div class="issue-block issue-sev-medium">
+    <b>blacklist: </b> Using lxml.etree.fromstring to parse untrusted XML data is known to be vulnerable to XML attacks. Replace lxml.etree.fromstring with its defusedxml equivalent function.<br>
+    <b>Test ID:</b> B320<br>
+    <b>Severity: </b>MEDIUM<br>
+    <b>Confidence: </b>HIGH<br>
+    <b>File: </b><a href="keystone/keystone/tests/unit/test_v3_federation.py" target="_blank">keystone/keystone/tests/unit/test_v3_federation.py</a> <br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/latest/blacklists/blacklist_calls.html#b313-b320-xml-bad-etree" target="_blank">https://bandit.readthedocs.io/en/latest/blacklists/blacklist_calls.html#b313-b320-xml-bad-etree</a><br>
+
+<div class="code">
+<pre>
+3997	        saml_str = response.to_string()
+3998	        response = etree.fromstring(saml_str)
+3999	        issuer = response[0]
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-97">
+<div class="issue-block issue-sev-medium">
+    <b>blacklist: </b> Using lxml.etree.fromstring to parse untrusted XML data is known to be vulnerable to XML attacks. Replace lxml.etree.fromstring with its defusedxml equivalent function.<br>
+    <b>Test ID:</b> B320<br>
+    <b>Severity: </b>MEDIUM<br>
+    <b>Confidence: </b>HIGH<br>
+    <b>File: </b><a href="keystone/keystone/tests/unit/test_v3_federation.py" target="_blank">keystone/keystone/tests/unit/test_v3_federation.py</a> <br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/latest/blacklists/blacklist_calls.html#b313-b320-xml-bad-etree" target="_blank">https://bandit.readthedocs.io/en/latest/blacklists/blacklist_calls.html#b313-b320-xml-bad-etree</a><br>
+
+<div class="code">
+<pre>
+4161	
+4162	        response = etree.fromstring(http_response.result)
+4163	        issuer = response[0]
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-98">
+<div class="issue-block issue-sev-medium">
+    <b>blacklist: </b> Using lxml.etree.fromstring to parse untrusted XML data is known to be vulnerable to XML attacks. Replace lxml.etree.fromstring with its defusedxml equivalent function.<br>
+    <b>Test ID:</b> B320<br>
+    <b>Severity: </b>MEDIUM<br>
+    <b>Confidence: </b>HIGH<br>
+    <b>File: </b><a href="keystone/keystone/tests/unit/test_v3_federation.py" target="_blank">keystone/keystone/tests/unit/test_v3_federation.py</a> <br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/latest/blacklists/blacklist_calls.html#b313-b320-xml-bad-etree" target="_blank">https://bandit.readthedocs.io/en/latest/blacklists/blacklist_calls.html#b313-b320-xml-bad-etree</a><br>
+
+<div class="code">
+<pre>
+4275	
+4276	        env_response = etree.fromstring(http_response.result)
+4277	        header = env_response[0]
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-99">
+<div class="issue-block issue-sev-low">
+    <b>hardcoded_password_funcarg: </b> Possible hardcoded password: '^(?=.*\d)(?=.*[a-zA-Z]).{7,}$'<br>
+    <b>Test ID:</b> B106<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>MEDIUM<br>
+    <b>File: </b><a href="keystone/keystone/tests/unit/test_v3_identity.py" target="_blank">keystone/keystone/tests/unit/test_v3_identity.py</a> <br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/latest/plugins/b106_hardcoded_password_funcarg.html" target="_blank">https://bandit.readthedocs.io/en/latest/plugins/b106_hardcoded_password_funcarg.html</a><br>
+
+<div class="code">
+<pre>
+1020	        # passwords requires: 1 letter, 1 digit, 7 chars
+1021	        self.config_fixture.config(group=&#x27;security_compliance&#x27;,
+1022	                                   password_regex=(
+1023	                                       r&#x27;^(?=.*\d)(?=.*[a-zA-Z]).{7,}$&#x27;))
+1024	
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-100">
+<div class="issue-block issue-sev-low">
+    <b>hardcoded_password_string: </b> Possible hardcoded password: 'simple'<br>
+    <b>Test ID:</b> B105<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>MEDIUM<br>
+    <b>File: </b><a href="keystone/keystone/tests/unit/test_v3_identity.py" target="_blank">keystone/keystone/tests/unit/test_v3_identity.py</a> <br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/latest/plugins/b105_hardcoded_password_string.html" target="_blank">https://bandit.readthedocs.io/en/latest/plugins/b105_hardcoded_password_string.html</a><br>
+
+<div class="code">
+<pre>
+1026	        user = unit.new_user_ref(domain_id=self.domain_id)
+1027	        user[&#x27;password&#x27;] = &#x27;simple&#x27;
+1028	        self.post(&#x27;/users&#x27;, body={&#x27;user&#x27;: user}, token=self.get_admin_token(),
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-101">
+<div class="issue-block issue-sev-low">
+    <b>hardcoded_password_string: </b> Possible hardcoded password: 'simple'<br>
+    <b>Test ID:</b> B105<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>MEDIUM<br>
+    <b>File: </b><a href="keystone/keystone/tests/unit/test_v3_identity.py" target="_blank">keystone/keystone/tests/unit/test_v3_identity.py</a> <br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/latest/plugins/b105_hardcoded_password_string.html" target="_blank">https://bandit.readthedocs.io/en/latest/plugins/b105_hardcoded_password_string.html</a><br>
+
+<div class="code">
+<pre>
+1033	                                domain_id=self.domain[&#x27;id&#x27;])
+1034	        user[&#x27;password&#x27;] = &#x27;simple&#x27;
+1035	        self.patch(&#x27;/users/%(user_id)s&#x27; % {
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-102">
+<div class="issue-block issue-sev-low">
+    <b>hardcoded_password_funcarg: </b> Possible hardcoded password: '[\S]+'<br>
+    <b>Test ID:</b> B106<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>MEDIUM<br>
+    <b>File: </b><a href="keystone/keystone/tests/unit/test_v3_identity.py" target="_blank">keystone/keystone/tests/unit/test_v3_identity.py</a> <br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/latest/plugins/b106_hardcoded_password_funcarg.html" target="_blank">https://bandit.readthedocs.io/en/latest/plugins/b106_hardcoded_password_funcarg.html</a><br>
+
+<div class="code">
+<pre>
+1041	        # password requires: any non-whitespace character
+1042	        self.config_fixture.config(group=&#x27;security_compliance&#x27;,
+1043	                                   password_regex=r&#x27;[\S]+&#x27;)
+1044	        self.change_password(password=&#x27;simple&#x27;,
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-103">
+<div class="issue-block issue-sev-low">
+    <b>hardcoded_password_funcarg: </b> Possible hardcoded password: 'simple'<br>
+    <b>Test ID:</b> B106<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>MEDIUM<br>
+    <b>File: </b><a href="keystone/keystone/tests/unit/test_v3_identity.py" target="_blank">keystone/keystone/tests/unit/test_v3_identity.py</a> <br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/latest/plugins/b106_hardcoded_password_funcarg.html" target="_blank">https://bandit.readthedocs.io/en/latest/plugins/b106_hardcoded_password_funcarg.html</a><br>
+
+<div class="code">
+<pre>
+1043	                                   password_regex=r&#x27;[\S]+&#x27;)
+1044	        self.change_password(password=&#x27;simple&#x27;,
+1045	                             original_password=self.user_ref[&#x27;password&#x27;],
+1046	                             expected_status=http.client.NO_CONTENT)
+1047	
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-104">
+<div class="issue-block issue-sev-low">
+    <b>hardcoded_password_funcarg: </b> Possible hardcoded password: 'mypassword2'<br>
+    <b>Test ID:</b> B106<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>MEDIUM<br>
+    <b>File: </b><a href="keystone/keystone/tests/unit/test_v3_identity.py" target="_blank">keystone/keystone/tests/unit/test_v3_identity.py</a> <br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/latest/plugins/b106_hardcoded_password_funcarg.html" target="_blank">https://bandit.readthedocs.io/en/latest/plugins/b106_hardcoded_password_funcarg.html</a><br>
+
+<div class="code">
+<pre>
+1048	    def test_changing_password_with_strong_password_strength(self):
+1049	        self.change_password(password=&#x27;mypassword2&#x27;,
+1050	                             original_password=self.user_ref[&#x27;password&#x27;],
+1051	                             expected_status=http.client.NO_CONTENT)
+1052	
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-105">
+<div class="issue-block issue-sev-low">
+    <b>hardcoded_password_funcarg: </b> Possible hardcoded password: 'mypassword'<br>
+    <b>Test ID:</b> B106<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>MEDIUM<br>
+    <b>File: </b><a href="keystone/keystone/tests/unit/test_v3_identity.py" target="_blank">keystone/keystone/tests/unit/test_v3_identity.py</a> <br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/latest/plugins/b106_hardcoded_password_funcarg.html" target="_blank">https://bandit.readthedocs.io/en/latest/plugins/b106_hardcoded_password_funcarg.html</a><br>
+
+<div class="code">
+<pre>
+1054	        # no digit
+1055	        self.change_password(password=&#x27;mypassword&#x27;,
+1056	                             original_password=self.user_ref[&#x27;password&#x27;],
+1057	                             expected_status=http.client.BAD_REQUEST)
+1058	
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-106">
+<div class="issue-block issue-sev-low">
+    <b>hardcoded_password_funcarg: </b> Possible hardcoded password: '12345678'<br>
+    <b>Test ID:</b> B106<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>MEDIUM<br>
+    <b>File: </b><a href="keystone/keystone/tests/unit/test_v3_identity.py" target="_blank">keystone/keystone/tests/unit/test_v3_identity.py</a> <br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/latest/plugins/b106_hardcoded_password_funcarg.html" target="_blank">https://bandit.readthedocs.io/en/latest/plugins/b106_hardcoded_password_funcarg.html</a><br>
+
+<div class="code">
+<pre>
+1059	        # no letter
+1060	        self.change_password(password=&#x27;12345678&#x27;,
+1061	                             original_password=self.user_ref[&#x27;password&#x27;],
+1062	                             expected_status=http.client.BAD_REQUEST)
+1063	
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-107">
+<div class="issue-block issue-sev-low">
+    <b>hardcoded_password_funcarg: </b> Possible hardcoded password: 'mypas2'<br>
+    <b>Test ID:</b> B106<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>MEDIUM<br>
+    <b>File: </b><a href="keystone/keystone/tests/unit/test_v3_identity.py" target="_blank">keystone/keystone/tests/unit/test_v3_identity.py</a> <br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/latest/plugins/b106_hardcoded_password_funcarg.html" target="_blank">https://bandit.readthedocs.io/en/latest/plugins/b106_hardcoded_password_funcarg.html</a><br>
+
+<div class="code">
+<pre>
+1064	        # less than 7 chars
+1065	        self.change_password(password=&#x27;mypas2&#x27;,
+1066	                             original_password=self.user_ref[&#x27;password&#x27;],
+1067	                             expected_status=http.client.BAD_REQUEST)
+1068	
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-108">
+<div class="issue-block issue-sev-low">
+    <b>hardcoded_password_funcarg: </b> Possible hardcoded password: '^(?=.*\d)(?=.*[a-zA-Z]).{7,}$'<br>
+    <b>Test ID:</b> B106<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>MEDIUM<br>
+    <b>File: </b><a href="keystone/keystone/tests/unit/test_validation.py" target="_blank">keystone/keystone/tests/unit/test_validation.py</a> <br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/latest/plugins/b106_hardcoded_password_funcarg.html" target="_blank">https://bandit.readthedocs.io/en/latest/plugins/b106_hardcoded_password_funcarg.html</a><br>
+
+<div class="code">
+<pre>
+2515	        # passwords requires: 1 letter, 1 digit, 7 chars
+2516	        self.config_fixture.config(group=&#x27;security_compliance&#x27;,
+2517	                                   password_regex=(
+2518	                                       r&#x27;^(?=.*\d)(?=.*[a-zA-Z]).{7,}$&#x27;))
+2519	
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-109">
+<div class="issue-block issue-sev-low">
+    <b>hardcoded_password_string: </b> Possible hardcoded password: 'mypassword2'<br>
+    <b>Test ID:</b> B105<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>MEDIUM<br>
+    <b>File: </b><a href="keystone/keystone/tests/unit/test_validation.py" target="_blank">keystone/keystone/tests/unit/test_validation.py</a> <br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/latest/plugins/b105_hardcoded_password_string.html" target="_blank">https://bandit.readthedocs.io/en/latest/plugins/b105_hardcoded_password_string.html</a><br>
+
+<div class="code">
+<pre>
+2520	    def test_password_validate_with_valid_strong_password(self):
+2521	        password = &#x27;mypassword2&#x27;
+2522	        validators.validate_password(password)
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-110">
+<div class="issue-block issue-sev-low">
+    <b>hardcoded_password_funcarg: </b> Possible hardcoded password: '\S]+'<br>
+    <b>Test ID:</b> B106<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>MEDIUM<br>
+    <b>File: </b><a href="keystone/keystone/tests/unit/test_validation.py" target="_blank">keystone/keystone/tests/unit/test_validation.py</a> <br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/latest/plugins/b106_hardcoded_password_funcarg.html" target="_blank">https://bandit.readthedocs.io/en/latest/plugins/b106_hardcoded_password_funcarg.html</a><br>
+
+<div class="code">
+<pre>
+2542	        # invalid regular expression, missing beginning &#x27;[&#x27;
+2543	        self.config_fixture.config(group=&#x27;security_compliance&#x27;,
+2544	                                   password_regex=r&#x27;\S]+&#x27;)
+2545	        password = &#x27;mypassword2&#x27;
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-111">
+<div class="issue-block issue-sev-low">
+    <b>hardcoded_password_string: </b> Possible hardcoded password: 'mypassword2'<br>
+    <b>Test ID:</b> B105<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>MEDIUM<br>
+    <b>File: </b><a href="keystone/keystone/tests/unit/test_validation.py" target="_blank">keystone/keystone/tests/unit/test_validation.py</a> <br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/latest/plugins/b105_hardcoded_password_string.html" target="_blank">https://bandit.readthedocs.io/en/latest/plugins/b105_hardcoded_password_string.html</a><br>
+
+<div class="code">
+<pre>
+2544	                                   password_regex=r&#x27;\S]+&#x27;)
+2545	        password = &#x27;mypassword2&#x27;
+2546	        self.assertRaises(exception.PasswordValidationError,
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-112">
+<div class="issue-block issue-sev-low">
+    <b>hardcoded_password_funcarg: </b> Possible hardcoded password: '[\S]+'<br>
+    <b>Test ID:</b> B106<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>MEDIUM<br>
+    <b>File: </b><a href="keystone/keystone/tests/unit/test_validation.py" target="_blank">keystone/keystone/tests/unit/test_validation.py</a> <br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/latest/plugins/b106_hardcoded_password_funcarg.html" target="_blank">https://bandit.readthedocs.io/en/latest/plugins/b106_hardcoded_password_funcarg.html</a><br>
+
+<div class="code">
+<pre>
+2549	        # fix regular expression and validate
+2550	        self.config_fixture.config(group=&#x27;security_compliance&#x27;,
+2551	                                   password_regex=r&#x27;[\S]+&#x27;)
+2552	        validators.validate_password(password)
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-113">
+<div class="issue-block issue-sev-low">
+    <b>hardcoded_password_string: </b> Possible hardcoded password: '/users/{user_id}/OS-OAUTH1/access_tokens/{access_token_id}'<br>
+    <b>Test ID:</b> B105<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>MEDIUM<br>
+    <b>File: </b><a href="keystone/keystone/tests/unit/test_versions.py" target="_blank">keystone/keystone/tests/unit/test_versions.py</a> <br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/latest/plugins/b105_hardcoded_password_string.html" target="_blank">https://bandit.readthedocs.io/en/latest/plugins/b105_hardcoded_password_string.html</a><br>
+
+<div class="code">
+<pre>
+134	BASE_ACCESS_TOKEN = (
+135	    &#x27;/users/{user_id}/OS-OAUTH1/access_tokens/{access_token_id}&#x27;)
+136	
+137	FEDERATED_AUTH_URL = (&#x27;/OS-FEDERATION/identity_providers/{idp_id}&#x27;
+138	                      &#x27;/protocols/{protocol_id}/auth&#x27;)
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-114">
+<div class="issue-block issue-sev-low">
+    <b>blacklist: </b> Standard pseudo-random generators are not suitable for security/cryptographic purposes.<br>
+    <b>Test ID:</b> B311<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>HIGH<br>
+    <b>File: </b><a href="keystone/keystone/tests/unit/test_versions.py" target="_blank">keystone/keystone/tests/unit/test_versions.py</a> <br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/latest/blacklists/blacklist_calls.html#b311-random" target="_blank">https://bandit.readthedocs.io/en/latest/blacklists/blacklist_calls.html#b311-random</a><br>
+
+<div class="code">
+<pre>
+713	        self.public_app = self.loadapp(&#x27;public&#x27;)
+714	        self.public_port = random.randint(40000, 60000)
+715	
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-115">
+<div class="issue-block issue-sev-low">
+    <b>blacklist: </b> Standard pseudo-random generators are not suitable for security/cryptographic purposes.<br>
+    <b>Test ID:</b> B311<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>HIGH<br>
+    <b>File: </b><a href="keystone/keystone/tests/unit/test_versions.py" target="_blank">keystone/keystone/tests/unit/test_versions.py</a> <br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/latest/blacklists/blacklist_calls.html#b311-random" target="_blank">https://bandit.readthedocs.io/en/latest/blacklists/blacklist_calls.html#b311-random</a><br>
+
+<div class="code">
+<pre>
+900	
+901	        self.public_port = random.randint(40000, 60000)
+902	
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-116">
+<div class="issue-block issue-sev-medium">
+    <b>blacklist: </b> Use of insecure MD2, MD4, MD5, or SHA1 hash function.<br>
+    <b>Test ID:</b> B303<br>
+    <b>Severity: </b>MEDIUM<br>
+    <b>Confidence: </b>HIGH<br>
+    <b>File: </b><a href="keystone/keystone/tests/unit/token/test_fernet_provider.py" target="_blank">keystone/keystone/tests/unit/token/test_fernet_provider.py</a> <br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/latest/blacklists/blacklist_calls.html#b303-md5" target="_blank">https://bandit.readthedocs.io/en/latest/blacklists/blacklist_calls.html#b303-md5</a><br>
+
+<div class="code">
+<pre>
+640	        # Create the thumbprint using all keys in the repository.
+641	        signature = hashlib.sha1()
+642	        for key in keys:
+</pre>
+</div>
+
+
+</div>
+</div>
+
+</div>
+
+</body>
+</html>
